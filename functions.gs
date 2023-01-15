@@ -1,14 +1,14 @@
-
-
+//Global Variables
 const ss = SpreadsheetApp.getActiveSpreadsheet()
 const UsersSheet = ss.getSheetByName('users')
 const settingsSheet = ss.getSheetByName('Settings')
+var recruitSheet = ss.getSheetByName('Recruiting Form')
+var formResSheet = ss.getSheetByName('Form responses')
 var lastRow = UsersSheet.getLastRow()-1
-const RawData = UsersSheet.getRange(2,1,lastRow,26).getValues()
-//const userSheeturl = UsersSheet.getUrl()
-//settingsSheet.getRange('C10').setValue(userSheeturl)
+var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
 
 
+// Sends Emails to new users with ESN Email, single use password and Google log in link.
 function emailCredentials() {
 
   var member = {
@@ -23,7 +23,7 @@ function emailCredentials() {
   
 
   //Data Loop
-  RawData.forEach(function (row, index) {
+  userData.forEach(function (row) {
   
   if(row[2] == "" && row[3] == ""){return} //Checks if there is an email address in each row.
 
@@ -59,8 +59,74 @@ function emailCredentials() {
 
 }
 
-
+// Generates the 'users' sheet link in the Settings
 function generateUsersLink(){
 
   SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings').getRange('C10').setValue(SpreadsheetApp.getActiveSpreadsheet().getUrl()+'#gid='+SpreadsheetApp.getActiveSpreadsheet().getSheetByName('users').getSheetId())
+}
+
+//Creates the "Recruiting Status" as the first Column of the Form responses
+function createRecruitingStatusCol() {
+
+  formResSheet.insertColumnBefore(1)
+  formResSheet.getRange('A1').setValue('Status')
+
+  var recStatusRange = formResSheet.getRange('A2:A')
+  var sourceRange = settingsSheet.getRange('F3:F20')
+
+  var rule = SpreadsheetApp.newDataValidation().requireValueInRange(sourceRange).requireValueInRange(sourceRange, true).build()
+  var rules = recStatusRange.getDataValidations()
+
+  for (var i = 0; i < rules.length; i++) {
+    for (var j = 0; j < rules[i].length; j++) {
+    rules[i][j] = rule}
+  }
+  recStatusRange.setDataValidations(rules)
+  
+
+  //Sets Conditional formating rules
+  var statusRangeLC = formResSheet.getLastColumn()
+  var statusRangeLR = formResSheet.getLastRow()
+  var conditionaFormatRange = formResSheet.getRange(2,1,statusRangeLR-1+1000,statusRangeLC)
+
+
+  var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F4")') //Contacted
+      .setBackground("#c9daf8")
+      .setRanges([conditionaFormatRange])
+      .build()
+
+  var formatRule2 = SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F5")') //Pending Coctact
+      .setBackground("#fff2cc")
+      .setRanges([conditionaFormatRange])
+      .build()
+
+  var formatRule3 = SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F6")') //Accepted
+      .setBackground("#d9ead3")
+      .setRanges([conditionaFormatRange])
+      .build()
+
+  var formatRule4 = SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F7")') //Rejected
+      .setBackground("#f4cccc")
+      .setRanges([conditionaFormatRange])
+      .build()
+
+
+
+  var conditionalFormatRules = formResSheet.getConditionalFormatRules()
+  conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4)
+  formResSheet.setConditionalFormatRules(conditionalFormatRules)
+
+  recStatusRange.setHorizontalAlignment("left")
+}
+
+// Set "Registered" in the recruiting status column
+function registerdStatus(){
+
+//var form = FormApp.getActiveForm();
+//Logger.log(form.getDestinationId())
+  
 }
