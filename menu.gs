@@ -1,13 +1,25 @@
 // Automatically runs when the spreadsheet is opened.
 function onOpen(){
 initMenu()
+
+ScriptApp.newTrigger('registerdStatus')
+.forSpreadsheet(formResSheet)
+.onFormSubmit()
+.create()
 }
 
-function onEdit(e) {
 
-  
+
+function onFormSubmit(e){
+  registerdStatus(e)
+}
+
+
+function onEdit() {
 
 }
+
+
 
 
 // Initializes the custom menu.

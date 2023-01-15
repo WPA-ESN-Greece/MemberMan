@@ -124,7 +124,27 @@ function createRecruitingStatusCol() {
 }
 
 // Set "Registered" in the recruiting status column
-function registerdStatus(){
+function registerdStatus(e){
+
+
+
+//var testingSheet = e.getActiveSheet()
+//var testingCell = testingSheet.getActiveCell()
+var range = e.range
+var col = range.getColumn()
+var row = range.getRow()
+
+Logger.log(col +" c and r "+row)
+
+formResSheet.getRange(row,col-1).setValue("Registered")
+//if(col > 2){
+
+  //formResSheet.getRange(row,1).setValue("Registered") //.setValue(settingsSheet.getRange("F3").getValue())
+
+//}
+
+
+
 
 //var form = FormApp.getActiveForm();
 //Logger.log(form.getDestinationId())
