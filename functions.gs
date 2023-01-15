@@ -123,30 +123,39 @@ function createRecruitingStatusCol() {
   recStatusRange.setHorizontalAlignment("left")
 }
 
+
+function createAgeCol() {
+  var lastColumn = formResSheet.getLastColumn()
+  formResSheet.insertColumnAfter(lastColumn)
+
+  formResSheet.getRange(1,lastColumn+1).setFormula(`={"Age";ARRAYFORMULA(IFNA(IF(F2:F<>"",YEAR(TODAY()) - Year(DATE('Recruiting Form'!F2:F*1,1,1)),""),"Error"))}`)
+
+  var a1AgeRange = formResSheet.getRange(1,lastColumn+1,formResSheet.getLastRow()).getA1Notation()
+  formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
+}
+
+
 // Set "Registered" in the recruiting status column
 function registerdStatus(e){
 
+  var range = e.range
+  var col = range.getColumn()
+  var row = range.getRow()
 
+  formResSheet.getRange(row,col-1).setValue("Registered")
+  //var form = FormApp.getActiveForm();
+  //Logger.log(form.getDestinationId())
+}
 
-//var testingSheet = e.getActiveSheet()
-//var testingCell = testingSheet.getActiveCell()
-var range = e.range
-var col = range.getColumn()
-var row = range.getRow()
+//Formats Headers in Form Responses Sheet
+function formatHeaders(){
 
-Logger.log(col +" c and r "+row)
-
-formResSheet.getRange(row,col-1).setValue("Registered")
-//if(col > 2){
-
-  //formResSheet.getRange(row,1).setValue("Registered") //.setValue(settingsSheet.getRange("F3").getValue())
-
-//}
-
-
-
-
-//var form = FormApp.getActiveForm();
-//Logger.log(form.getDestinationId())
-  
+var lastColumn = formResSheet.getLastColumn()
+formResSheet.getRange(1,1,1,lastColumn)
+.setBackground('#2e3192')
+.setFontColor('#ffffff')
+.setFontWeight("bold")
+.setHorizontalAlignment("center")
+.setFontFamily("Roboto")
+.setWrap(true)
 }

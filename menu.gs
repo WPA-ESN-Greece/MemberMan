@@ -9,16 +9,10 @@ ScriptApp.newTrigger('registerdStatus')
 }
 
 
-
+//Triggers when the linked form gets a new sybmition.
 function onFormSubmit(e){
   registerdStatus(e)
 }
-
-
-function onEdit() {
-
-}
-
 
 
 
@@ -41,12 +35,11 @@ function initMenu() {
   menu.addToUi()
 }
 
-
+//Documentation Link pop-up
 function showDocumentation(){
+    var DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
 
-var DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
+    var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
 
-var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
-
-SpreadsheetApp.getUi().showModalDialog(documentationMessage,"Documentation")
+  SpreadsheetApp.getUi().showModalDialog(documentationMessage,"Documentation")
 }
