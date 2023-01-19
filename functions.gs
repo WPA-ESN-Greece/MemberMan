@@ -2,7 +2,7 @@
 const ss = SpreadsheetApp.getActiveSpreadsheet()
 const UsersSheet = ss.getSheetByName('users')
 const settingsSheet = ss.getSheetByName('Settings')
-var recruitSheet = ss.getSheetByName('Recruiting Form')
+var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
 var lastRow = UsersSheet.getLastRow()-1
 var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
