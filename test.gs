@@ -1,21 +1,31 @@
 function myFunction() {
 
+
+
 }
 
 function deleteRejected(){
-//Form Responses
-var lastRowform = formResSheet.getLastRow()
-var lastColform = formResSheet.getLastColumn()
-var formData = formResSheet.getRange(2,1,lastRowform,lastColform).getValues()
+  //Form Responses
+  var lastRow = formResSheet.getLastRow()
+  var lastCol = formResSheet.getLastColumn()
+  var formData = formResSheet.getRange(2,1,lastRow,lastCol).getValues()
 
-//Recruiting Form Data
-var lastRowRec = recruitSheet.getLastRow()
-var lastColRec = recruitSheet.getLastColumn()
-var recruitData = recruitSheet.getRange(2,1,lastRowRec,lastColRec).getValues()
+  var rejectText = settingsSheet.getRange('F7').getValue()
 
-var rejectText = settingsSheet.getRange('F7').getValue()
+  formData.forEach(function(row,index){
 
-Logger.log(lastColform)
+    if(row[0] == "Rejected"){
+    
+      var targetRow = formResSheet.getRange(index+2,1,1,lastCol+1)
+      
+      targetRow.setValue("")
+
+      //formResSheet.moveRows(targetRow, lastRow)
+
+    }
+
+})
+
 /*
  recruitData.forEach(function(row,index){
 

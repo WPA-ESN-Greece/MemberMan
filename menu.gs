@@ -1,11 +1,19 @@
 // Automatically runs when the spreadsheet is opened.
 function onOpen(){
-initMenu()
 
-ScriptApp.newTrigger('registerdStatus')
-.forSpreadsheet(formResSheet)
-.onFormSubmit()
-.create()
+  initMenu()
+  runTrigers()
+
+}
+
+//Trigers
+function runTrigers(){
+
+  ScriptApp.newTrigger('registerdStatus')
+  .forSpreadsheet(formResSheet)
+  .onFormSubmit()
+  .create()
+
 }
 
 
@@ -34,6 +42,7 @@ function initMenu() {
   
   menu.addToUi()
 }
+
 
 //Documentation Link pop-up
 function showDocumentation(){

@@ -42,7 +42,7 @@ function emailCredentials() {
     `<p><b>ESN Email Address: </b> ${member.esnEmail}</p>` +
     `<p><b>Single-Use Password: </b> ${member.password}</p>`+
     `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
-     You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`;
+     You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`
 
  //var message = temp.evaluate().getContent()
 
