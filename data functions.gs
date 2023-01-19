@@ -4,8 +4,6 @@ function acceptedToMembers() {
   var lastCol = formResSheet.getLastColumn()
   var range = formResSheet.getRange(2,1,lastRow,lastCol).getValues()
 
-
-  //var membersSheet2 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Copy of Members 2')
   var acceptedText = settingsSheet.getRange('E6').getValue()
 
   range.forEach(function(row,index){
@@ -38,25 +36,54 @@ function appendRowFromTop(sheet, rowData, optIndex, optColIndex){
 }
 
 
+
+//var rowCount = 0
 function deleteRejected(){
-  //Form Responses
+
+  var buttonPressed = ui.alert("This action cannot be undone. Are you sure you want to procceed?",ui.ButtonSet.YES_NO)
+
+  if(buttonPressed == ui.Button.NO){return}
+    
   var lastRow = formResSheet.getLastRow()
   var lastCol = formResSheet.getLastColumn()
   var formData = formResSheet.getRange(2,1,lastRow,lastCol).getValues()
 
   var rejectText = settingsSheet.getRange('E7').getValue()
 
+  var indexToDelete = []
+
   formData.forEach(function(row,index){
 
-    if(row[0] == rejectText){
-    
-      var targetRow = formResSheet.getRange(index+2,1,1,lastCol+1)
+    if(row[0] == rejectText && row[2] != ""){
       
-      targetRow.setValue("")
+      //var targetRow = formResSheet.getRange(index+2,1,1,lastCol+1)
+      var indexPlusTwo = index +2
+      //Logger.log(indexPlusTwo)
 
-      formResSheet.moveRows(targetRow, lastRow)
+      indexToDelete.push(indexPlusTwo)
 
     }
 
   })
+
+  var indexToDeleteSorted = indexToDelete.sort((a,b)=>b-a)
+
+  for(var i = 0; i < indexToDelete.length; i++){
+
+    formResSheet.deleteRow(indexToDeleteSorted[i])
+
+  }
+
+}
+
+
+// Set "Registered" in the recruiting status column
+function registerdStatus(e){
+
+  var range = e.range
+  var col = range.getColumn()
+  var row = range.getRow()
+
+  formResSheet.getRange(row,col-1).setValue("Registered")
+
 }

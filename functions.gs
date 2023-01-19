@@ -1,11 +1,12 @@
 //Global Variables
+var ui = SpreadsheetApp.getUi()
 const ss = SpreadsheetApp.getActiveSpreadsheet()
 const UsersSheet = ss.getSheetByName('users')
 const settingsSheet = ss.getSheetByName('Settings')
 var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
-var lastRow = UsersSheet.getLastRow()-1
-var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
+//var lastRow = UsersSheet.getLastRow()-1
+//var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
 
 
 // Sends Emails to new users with ESN Email, single use password and Google log in link.
@@ -32,9 +33,6 @@ function emailCredentials() {
    member.esnEmail = row[2];
    member.password = row[3];
    member.recoveryEmail = row[7];
-
-
- //var temp = HtmlService.createTemplateFromFile('email')
   
 
   var message = 
@@ -44,10 +42,7 @@ function emailCredentials() {
     `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
      You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`
 
- //var message = temp.evaluate().getContent()
-
       
-
   MailApp.sendEmail(
     {
             to: member.recoveryEmail,
@@ -62,8 +57,9 @@ function emailCredentials() {
 // Generates the 'users' sheet link in the Settings
 function generateUsersLink(){
 
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Settings').getRange('C10').setValue(SpreadsheetApp.getActiveSpreadsheet().getUrl()+'#gid='+SpreadsheetApp.getActiveSpreadsheet().getSheetByName('users').getSheetId())
+  settingsSheet.getRange('C10').setValue(ss.getUrl()+'#gid='+UsersSheet.getSheetId())
 }
+
 
 //Creates the "Recruiting Status" as the first Column of the Form responses
 function createRecruitingStatusCol() {
@@ -134,18 +130,6 @@ function createAgeCol() {
   formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
 }
 
-
-// Set "Registered" in the recruiting status column
-function registerdStatus(e){
-
-  var range = e.range
-  var col = range.getColumn()
-  var row = range.getRow()
-
-  formResSheet.getRange(row,col-1).setValue("Registered")
-  //var form = FormApp.getActiveForm();
-  //Logger.log(form.getDestinationId())
-}
 
 //Formats Headers in Form Responses Sheet
 function formatHeaders(){

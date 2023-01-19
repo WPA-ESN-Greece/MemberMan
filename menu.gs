@@ -26,10 +26,13 @@ function onFormSubmit(e){
 
 // Initializes the custom menu.
 function initMenu() {
-  var ui = SpreadsheetApp.getUi()
-  var menu = ui.createMenu("ESN Menu")
+  //var ui = SpreadsheetApp.getUi()
+  var menu = ui.createMenu("🌌 ESN Menu")
   
   menu.addItem("📤 Email Credentials to New Users","emailCredentials")
+  menu.addItem("🦸‍♀️ Move Accepted to Members","acceptedToMembers")
+  menu.addItem("🚮 Delete Regected Responses","deleteRejected")
+
   menu.addSeparator()
 
   var submenu = ui.createMenu("🔨 Set Up")
@@ -41,6 +44,20 @@ function initMenu() {
   menu.addItem("📑 View Documentation","showDocumentation")
   
   menu.addToUi()
+}
+
+
+function oneClickSetUp(){
+
+//For Settings Sheet
+generateUsersLink()
+
+//For Form responses Sheet
+createRecruitingStatusCol()
+createAgeCol()
+formatHeaders()
+
+
 }
 
 
