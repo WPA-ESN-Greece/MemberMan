@@ -69,7 +69,7 @@ function createRecruitingStatusCol() {
   formResSheet.getRange('A1').setValue('Status')
 
   var recStatusRange = formResSheet.getRange('A2:A')
-  var sourceRange = settingsSheet.getRange('F3:F20')
+  var sourceRange = settingsSheet.getRange('E3:E20')
 
   var rule = SpreadsheetApp.newDataValidation().requireValueInRange(sourceRange).requireValueInRange(sourceRange, true).build()
   var rules = recStatusRange.getDataValidations()
@@ -88,25 +88,25 @@ function createRecruitingStatusCol() {
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F4")') //Contacted
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E4")') //Contacted
       .setBackground("#c9daf8")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule2 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F5")') //Pending Coctact
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E5")') //Pending Coctact
       .setBackground("#fff2cc")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule3 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F6")') //Accepted
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E6")') //Accepted
       .setBackground("#d9ead3")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule4 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!F7")') //Rejected
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E7")') //Rejected
       .setBackground("#f4cccc")
       .setRanges([conditionaFormatRange])
       .build()
@@ -125,7 +125,7 @@ function createAgeCol() {
   var lastColumn = formResSheet.getLastColumn()
   formResSheet.insertColumnAfter(lastColumn)
 
-  formResSheet.getRange(1,lastColumn+1).setFormula(`={"Age";ARRAYFORMULA(IFNA(IF(F2:F<>"",YEAR(TODAY()) - Year(DATE('Recruiting Form'!F2:F*1,1,1)),""),"Error"))}`)
+  formResSheet.getRange(1,lastColumn+1).setFormula(`={"Age";ARRAYFORMULA(IFNA(IF(F2:F<>"",YEAR(TODAY()) - Year(DATE(F2:F*1,1,1)),""),"Error"))}`)
 
   var a1AgeRange = formResSheet.getRange(1,lastColumn+1,formResSheet.getLastRow()).getA1Notation()
   formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
@@ -177,10 +177,18 @@ function renameFormResponses(){
 
 function deleteBlankColumns(){
 
-  var aSheet = ss.getSheetByName("Copy of Form responses 123")
-  var maxColumn = aSheet.getMaxColumns()
-  var lastColumn = aSheet.getLastColumn()
+  var maxColumn = formResSheet.getMaxColumns()
+  var lastColumn = formResSheet.getLastColumn()
 
-  aSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
+  formResSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
+
+}
+
+function deleteMostBlankRows(){
+
+  var maxRow = formResSheet.getMaxRows()
+  var lastRow = formResSheet.getLastRow()
+
+  formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)
 
 }

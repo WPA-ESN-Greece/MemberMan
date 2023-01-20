@@ -52,6 +52,7 @@ function oneClickSetUp(){
 
 //For Form responses Sheet
 renameFormResponses()
+deleteMostBlankRows()
 deleteBlankColumns()
 createRecruitingStatusCol()
 createAgeCol()
