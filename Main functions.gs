@@ -24,6 +24,8 @@ var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
     recoveryEmail:''
     }
 
+  var esnMail = ""
+  var esnMailPassword = ""
   var subject = "Your New ESN Google Account Credentials"
 
   //Data Loop
@@ -33,19 +35,30 @@ var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
 
    member.name = row[0];
    member.lastName = row[1];
-   member.esnEmail = row[2];
-   member.password = row[3];
+   esnMail = row[2];
+   esnMailPassword = row[3];
    member.recoveryEmail = row[7];
   
-
+  /*
   var message = 
     `<h2>Your New ESN Google Account is Ready!</h2>`+
     `<p><b>ESN Email Address: </b> ${member.esnEmail}</p>` +
     `<p><b>Single-Use Password: </b> ${member.password}</p>`+
     `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
-     You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`
+     You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`*/
 
-      
+  //var esnMail = member.esnEmail 
+  //var esnMailPassword = member.password
+
+
+  var htmlTemplate = HtmlService.createTemplateFromFile("email_template")
+  htmlTemplate.esnMail = row[2]
+  htmlTemplate.esnMailPassword = row[3]
+  Logger.log(esnMail)
+  Logger.log(esnMailPassword)
+
+  var message = htmlTemplate.evaluate().getContent()
+
   MailApp.sendEmail(
     {
             to: member.recoveryEmail,
@@ -191,7 +204,7 @@ function deleteBlankColumns(){
   var lastColumn = formResSheet.getLastColumn()
 
   if(maxColumn-lastColumn > 0){formResSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)}
-  Logger.log(maxColumn-lastColumn)
+  //Logger.log(maxColumn-lastColumn)
   return
 }
 
@@ -201,6 +214,6 @@ function deleteMostBlankRows(){
   var lastRow = formResSheet.getLastRow()
 
   if( maxRow-lastRow -100 > 0){formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
-  Logger.log(maxRow-lastRow -100)
+  //Logger.log(maxRow-lastRow -100)
   return
 }
