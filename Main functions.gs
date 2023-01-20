@@ -1,13 +1,15 @@
 //Global Variables
-var ui = SpreadsheetApp.getUi()
+var DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
+//var ui = SpreadsheetApp.getUi()
 const ss = SpreadsheetApp.getActiveSpreadsheet()
 const UsersSheet = ss.getSheetByName('users')
 const settingsSheet = ss.getSheetByName('Settings')
 var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
+var FORM_ID = settingsSheet.getRange('C3').getValue()
 //var lastRow = UsersSheet.getLastRow()-1
 //var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
-
+var PARENT_FOLDER = ""
 
 // Sends Emails to new users with ESN Email, single use password and Google log in link.
 function emailCredentials() {
@@ -20,8 +22,7 @@ function emailCredentials() {
     recoveryEmail:''
     }
 
-  var subject = "ESN Google Account Credentials"
-  
+  var subject = "Your New ESN Google Account Credentials"
 
   //Data Loop
   userData.forEach(function (row) {
@@ -142,4 +143,44 @@ formResSheet.getRange(1,1,1,lastColumn)
 .setHorizontalAlignment("center")
 .setFontFamily("Roboto")
 .setWrap(true)
+}
+
+// Creates a new form from an existing file 
+function createNewRecruitmentForm() {
+  var ui = SpreadsheetApp.getUi()
+
+  var parentFolderID = DriveApp.getFileById(ss.getId()).getParents().next().getId() //Spreadsheet Parent folder
+  var destinationFolder = DriveApp.getFolderById(parentFolderID)
+  var recruitForm = DriveApp.getFileById(FORM_ID).makeCopy("🦸‍♂️ MemberMan(agement) Form", destinationFolder)
+  var formUrl = recruitForm.getUrl()
+  //var recruitFormID = recruitForm.getId()
+
+  var formCreationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find your new recruiting form <a href="${formUrl+"edit#responses"}"target="_blank">here</a>.
+  Don't forget to Link the responses to this sheet from the responses tab and rename the new sheet "Form responses".</p>`).setWidth(400).setHeight(60)
+
+  SpreadsheetApp.getUi().showModalDialog(formCreationMessage,"Your Form is ready!")
+
+  PARENT_FOLDER = parentFolderID
+}
+
+
+function renameFormResponses(){
+
+  var searchText = "Form responses"
+  var sheets = ss.getSheets()
+  var sheet = sheets.filter(s => s.getSheetName().includes(searchText))
+  if (sheet.length > 0){sheet[0].setName("Form responses")}
+
+}
+
+
+
+function deleteBlankColumns(){
+
+  var aSheet = ss.getSheetByName("Copy of Form responses 123")
+  var maxColumn = aSheet.getMaxColumns()
+  var lastColumn = aSheet.getLastColumn()
+
+  aSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
+
 }

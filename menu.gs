@@ -26,7 +26,7 @@ function onFormSubmit(e){
 
 // Initializes the custom menu.
 function initMenu() {
-  //var ui = SpreadsheetApp.getUi()
+  var ui = SpreadsheetApp.getUi()
   var menu = ui.createMenu("🌌 ESN Menu")
   
   menu.addItem("📤 Email Credentials to New Users","emailCredentials")
@@ -36,8 +36,9 @@ function initMenu() {
   menu.addSeparator()
 
   var submenu = ui.createMenu("🔨 Set Up")
-  submenu.addItem("🔗 Generate users Link","generateUsersLink")
-  //submenu.addItem("")
+  submenu.addItem("📝 Create New Form","createNewRecruitmentForm")
+  submenu.addItem("✨ Format Form responses","oneClickSetUp")
+  submenu.addItem("🔗 Generate users Sheet Link","generateUsersLink")
 
   menu.addSubMenu(submenu)
   
@@ -49,23 +50,20 @@ function initMenu() {
 
 function oneClickSetUp(){
 
-//For Settings Sheet
-generateUsersLink()
-
 //For Form responses Sheet
+renameFormResponses()
+deleteBlankColumns()
 createRecruitingStatusCol()
 createAgeCol()
 formatHeaders()
-
 
 }
 
 
 //Documentation Link pop-up
 function showDocumentation(){
-    var DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
-
-    var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
+var ui = SpreadsheetApp.getUi()
+  var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
 
   SpreadsheetApp.getUi().showModalDialog(documentationMessage,"Documentation")
 }
