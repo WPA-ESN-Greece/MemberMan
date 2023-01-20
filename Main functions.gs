@@ -7,12 +7,14 @@ const settingsSheet = ss.getSheetByName('Settings')
 var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
 var FORM_ID = settingsSheet.getRange('C3').getValue()
-//var lastRow = UsersSheet.getLastRow()-1
-//var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
+
 var PARENT_FOLDER = ""
 
 // Sends Emails to new users with ESN Email, single use password and Google log in link.
 function emailCredentials() {
+
+var lastRow = UsersSheet.getLastRow()-1
+var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
 
   var member = {
     name:'',
@@ -111,6 +113,14 @@ function createRecruitingStatusCol() {
       .setRanges([conditionaFormatRange])
       .build()
 
+    var formatRule5 = SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E8")') //Accepted & Transferred
+      .setBackground("#d9ead3")
+      .setFontColor("#274e13")
+      .setItalic(true)
+      .setRanges([conditionaFormatRange])
+      .build()
+
 
 
   var conditionalFormatRules = formResSheet.getConditionalFormatRules()
@@ -180,8 +190,9 @@ function deleteBlankColumns(){
   var maxColumn = formResSheet.getMaxColumns()
   var lastColumn = formResSheet.getLastColumn()
 
-  formResSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
-
+  if(maxColumn-lastColumn > 0){formResSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)}
+  Logger.log(maxColumn-lastColumn)
+  return
 }
 
 function deleteMostBlankRows(){
@@ -189,6 +200,7 @@ function deleteMostBlankRows(){
   var maxRow = formResSheet.getMaxRows()
   var lastRow = formResSheet.getLastRow()
 
-  formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)
-
+  if( maxRow-lastRow -100 > 0){formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
+  Logger.log(maxRow-lastRow -100)
+  return
 }
