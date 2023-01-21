@@ -160,7 +160,7 @@ function createAgeCol() {
   formResSheet.insertColumnAfter(lastColumn)
 
   formResSheet.getRange(1,lastColumn+1)
-  .setFormula(`={"ESN email adrress";ARRAYFORMULA(IF((INDIRECT(Settings!J4)<>"")*(INDIRECT(Settings!J6)<>""),LOWER(LEFT(INDIRECT(Settings!J4),1)&INDIRECT(Settings!J6))&"@"&Settings!C6,""))}`)
+  .setFormula(`={"Age";ARRAYFORMULA(IF(INDIRECT(Settings!K16)<>"",YEAR(TODAY()) - Year(DATE(INDIRECT(Settings!K16),1,1)),""))}`)
 
   var a1AgeRange = formResSheet.getRange(1,lastColumn+1,formResSheet.getLastRow()).getA1Notation()
   formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
