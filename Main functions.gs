@@ -1,20 +1,32 @@
 //Global Variables
-var DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
-//var ui = SpreadsheetApp.getUi()
-const ss = SpreadsheetApp.getActiveSpreadsheet()
-const UsersSheet = ss.getSheetByName('users')
-const settingsSheet = ss.getSheetByName('Settings')
+const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uQ3Sp9LvT8ORnd1uxYykX4FRxvCn1vkn30Z0HKTUbPA/edit?usp=sharing'
+var ui = SpreadsheetApp.getUi()
+var ss = SpreadsheetApp.getActiveSpreadsheet()
+var UsersSheet = ss.getSheetByName('users')
+var settingsSheet = ss.getSheetByName('Settings')
 var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
 var FORM_ID = settingsSheet.getRange('C3').getValue()
 
-var PARENT_FOLDER = ""
+function spreadsheetInfo(){
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet()
+  var UsersSheet = ss.getSheetByName('users')
+  var settingsSheet = ss.getSheetByName('Settings')
+  var membersSheet = ss.getSheetByName('Members')
+  var formResSheet = ss.getSheetByName('Form responses')
+
+}
+
+
+//var PARENT_FOLDER = ""
 
 // Sends Emails to new users with ESN Email, single use password and Google log in link.
 function emailCredentials() {
+  spreadsheetInfo()
 
-var lastRow = UsersSheet.getLastRow()-1
-var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
+  var lastRow = UsersSheet.getLastRow()-1
+  var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
 
   var member = {
     name:'',
@@ -47,15 +59,10 @@ var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
     `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
      You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`*/
 
-  //var esnMail = member.esnEmail 
-  //var esnMailPassword = member.password
-
 
   var htmlTemplate = HtmlService.createTemplateFromFile("email_template")
   htmlTemplate.esnMail = row[2]
   htmlTemplate.esnMailPassword = row[3]
-  Logger.log(esnMail)
-  Logger.log(esnMailPassword)
 
   var message = htmlTemplate.evaluate().getContent()
 
@@ -68,17 +75,19 @@ var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
     }
   )})
 
+toast("Now the new ESNers can log in to Google.","🎉 Emails sent")
 }
 
 // Generates the 'users' sheet link in the Settings
 function generateUsersLink(){
-
   settingsSheet.getRange('C10').setValue(ss.getUrl()+'#gid='+UsersSheet.getSheetId())
+  toast("The users sheet link is ready in the Settings.","🎉 Done!")
 }
 
 
 //Creates the "Recruiting Status" as the first Column of the Form responses
 function createRecruitingStatusCol() {
+  spreadsheetInfo()
 
   formResSheet.insertColumnBefore(1)
   formResSheet.getRange('A1').setValue('Status')
@@ -137,7 +146,7 @@ function createRecruitingStatusCol() {
 
 
   var conditionalFormatRules = formResSheet.getConditionalFormatRules()
-  conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4)
+  conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4, formatRule5)
   formResSheet.setConditionalFormatRules(conditionalFormatRules)
 
   recStatusRange.setHorizontalAlignment("left")
@@ -145,10 +154,13 @@ function createRecruitingStatusCol() {
 
 
 function createAgeCol() {
+  spreadsheetInfo()
+
   var lastColumn = formResSheet.getLastColumn()
   formResSheet.insertColumnAfter(lastColumn)
 
-  formResSheet.getRange(1,lastColumn+1).setFormula(`={"Age";ARRAYFORMULA(IFNA(IF(F2:F<>"",YEAR(TODAY()) - Year(DATE(F2:F*1,1,1)),""),"Error"))}`)
+  formResSheet.getRange(1,lastColumn+1)
+  .setFormula(`={"ESN email adrress";ARRAYFORMULA(IF((INDIRECT(Settings!J4)<>"")*(INDIRECT(Settings!J6)<>""),LOWER(LEFT(INDIRECT(Settings!J4),1)&INDIRECT(Settings!J6))&"@"&Settings!C6,""))}`)
 
   var a1AgeRange = formResSheet.getRange(1,lastColumn+1,formResSheet.getLastRow()).getA1Notation()
   formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
@@ -157,20 +169,23 @@ function createAgeCol() {
 
 //Formats Headers in Form Responses Sheet
 function formatHeaders(){
+  spreadsheetInfo()
 
-var lastColumn = formResSheet.getLastColumn()
-formResSheet.getRange(1,1,1,lastColumn)
-.setBackground('#2e3192')
-.setFontColor('#ffffff')
-.setFontWeight("bold")
-.setHorizontalAlignment("center")
-.setFontFamily("Roboto")
-.setWrap(true)
+  var lastColumn = formResSheet.getLastColumn()
+  formResSheet.getRange(1,1,1,lastColumn)
+  .setBackground('#2e3192')
+  .setFontColor('#ffffff')
+  .setFontWeight("bold")
+  .setHorizontalAlignment("center")
+  .setVerticalAlignment("middle")
+  .setFontFamily("Roboto")
+  .setWrap(true)
 }
 
 // Creates a new form from an existing file 
 function createNewRecruitmentForm() {
   var ui = SpreadsheetApp.getUi()
+  spreadsheetInfo()
 
   var parentFolderID = DriveApp.getFileById(ss.getId()).getParents().next().getId() //Spreadsheet Parent folder
   var destinationFolder = DriveApp.getFolderById(parentFolderID)
@@ -179,16 +194,15 @@ function createNewRecruitmentForm() {
   //var recruitFormID = recruitForm.getId()
 
   var formCreationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find your new recruiting form <a href="${formUrl+"edit#responses"}"target="_blank">here</a>.
-  Don't forget to Link the responses to this sheet from the responses tab and rename the new sheet "Form responses".</p>`).setWidth(400).setHeight(60)
+  Don't forget to Link the responses to this sheet from the responses tab and rename the new sheet "Form responses".</p>`).setWidth(400).setHeight(120)
 
   SpreadsheetApp.getUi().showModalDialog(formCreationMessage,"Your Form is ready!")
-
-  PARENT_FOLDER = parentFolderID
+toast("","🎉 The Form is ready!")
 }
 
 
 function renameFormResponses(){
-
+  spreadsheetInfo()
   var searchText = "Form responses"
   var sheets = ss.getSheets()
   var sheet = sheets.filter(s => s.getSheetName().includes(searchText))
@@ -199,7 +213,7 @@ function renameFormResponses(){
 
 
 function deleteBlankColumns(){
-
+  spreadsheetInfo()
   var maxColumn = formResSheet.getMaxColumns()
   var lastColumn = formResSheet.getLastColumn()
 
@@ -209,11 +223,16 @@ function deleteBlankColumns(){
 }
 
 function deleteMostBlankRows(){
-
+  spreadsheetInfo()
   var maxRow = formResSheet.getMaxRows()
   var lastRow = formResSheet.getLastRow()
 
   if( maxRow-lastRow -100 > 0){formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
   //Logger.log(maxRow-lastRow -100)
   return
+}
+
+
+function toast(message, tittle, timeoutSeconds){
+  ss.toast(message, tittle, timeoutSeconds)
 }

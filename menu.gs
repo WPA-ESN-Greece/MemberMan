@@ -26,6 +26,7 @@ function onFormSubmit(e){
 
 // Initializes the custom menu.
 function initMenu() {
+  
   var ui = SpreadsheetApp.getUi()
   var menu = ui.createMenu("🌌 ESN Menu")
   
@@ -49,22 +50,23 @@ function initMenu() {
 
 
 function oneClickSetUp(){
-
-//For Form responses Sheet
-renameFormResponses()
-deleteMostBlankRows()
-deleteBlankColumns()
-createRecruitingStatusCol()
-createAgeCol()
-formatHeaders()
+  
+  spreadsheetInfo()
+  //For Form responses Sheet
+  renameFormResponses()
+  deleteMostBlankRows()
+  deleteBlankColumns()
+  createRecruitingStatusCol()
+  createAgeCol()
+  formatHeaders()
 
 }
 
 
 //Documentation Link pop-up
 function showDocumentation(){
-var ui = SpreadsheetApp.getUi()
-  var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
+  var ui = SpreadsheetApp.getUi()
+    var documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
 
-  SpreadsheetApp.getUi().showModalDialog(documentationMessage,"Documentation")
+    SpreadsheetApp.getUi().showModalDialog(documentationMessage,"Documentation")
 }

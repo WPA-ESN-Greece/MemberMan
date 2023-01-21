@@ -23,7 +23,7 @@ function acceptedToMembers() {
     }
 
   })
-
+    toast("Accepted entries have been copied to Members Sheet.","🎉 Accepted they were!")
   }
 
 
@@ -39,7 +39,7 @@ function appendRowFromTop(sheet, rowData, optIndex, optColIndex){
 
 //var rowCount = 0
 function deleteRejected(){
-
+  var ui = SpreadsheetApp.getUi()
   var buttonPressed = ui.alert("This action cannot be undone. Are you sure you want to procceed?",ui.ButtonSet.YES_NO)
 
   if(buttonPressed == ui.Button.NO){return}
@@ -73,7 +73,7 @@ function deleteRejected(){
     formResSheet.deleteRow(indexToDeleteSorted[i])
 
   }
-
+  toast("..but not for the recruiter.","🎉 Rejecton hurts...")
 }
 
 
