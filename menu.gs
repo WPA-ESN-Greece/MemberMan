@@ -50,19 +50,28 @@ function initMenu() {
 
 
 function oneClickSetUp(){
-  
+
   spreadsheetInfo()
+
+  var searchText = "Form responses"
+  var sheets = ss.getSheets()
+  var sheet = sheets.filter(s => s.getSheetName().includes(searchText))
+  if (sheet.length > 0){
+   var newFormSheet = ss.getSheetByName(sheet[0].getSheetName())
+   }
+
   //For Form responses Sheet
+  createRecruitingStatusCol(newFormSheet)
+  createAgeCol(newFormSheet)
+
+  deleteBlankColumns(newFormSheet)
+  deleteMostBlankRows(newFormSheet)
+
+  formatHeaders(newFormSheet)
+
   renameFormResponses()
 
-  createRecruitingStatusCol()
-  createAgeCol()
-
-  deleteBlankColumns()
-  deleteMostBlankRows()
-
-  formatHeaders()
-
+  setRangesInSettings()
 }
 
 

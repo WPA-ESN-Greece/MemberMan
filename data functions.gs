@@ -8,7 +8,7 @@ function acceptedToMembers() {
 
   range.forEach(function(row,index){
 
-    if(row[0] == acceptedText && row[1] != ''){
+    if(row[0] == acceptedText && row[2] != ''){
 
       var targetRow = formResSheet.getRange(index+2,1,1,lastCol).getValues()
      
@@ -40,6 +40,7 @@ function appendRowFromTop(sheet, rowData, optIndex, optColIndex){
 //var rowCount = 0
 function deleteRejected(){
   var ui = SpreadsheetApp.getUi()
+  
   var buttonPressed = ui.alert("This action cannot be undone. Are you sure you want to procceed?",ui.ButtonSet.YES_NO)
 
   if(buttonPressed == ui.Button.NO){return}

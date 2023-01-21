@@ -14,7 +14,7 @@ function spreadsheetInfo(){
   var UsersSheet = ss.getSheetByName('users')
   var settingsSheet = ss.getSheetByName('Settings')
   var membersSheet = ss.getSheetByName('Members')
-  var formResSheet = ss.getSheetByName('Form responses')
+  //var formResSheet = ss.getSheetByName('Form responses')
 
 }
 
@@ -86,13 +86,13 @@ function generateUsersLink(){
 
 
 //Creates the "Recruiting Status" as the first Column of the Form responses
-function createRecruitingStatusCol() {
+function createRecruitingStatusCol(formSheet) {
   spreadsheetInfo()
 
-  formResSheet.insertColumnBefore(1)
-  formResSheet.getRange('A1').setValue('Status')
+  formSheet.insertColumnBefore(1)
+  formSheet.getRange('A1').setValue('Status')
 
-  var recStatusRange = formResSheet.getRange('A2:A')
+  var recStatusRange = formSheet.getRange('A2:A')
   var sourceRange = settingsSheet.getRange('E3:E20')
 
   var rule = SpreadsheetApp.newDataValidation().requireValueInRange(sourceRange).requireValueInRange(sourceRange, true).build()
@@ -106,9 +106,9 @@ function createRecruitingStatusCol() {
   
 
   //Sets Conditional formating rules
-  var statusRangeLC = formResSheet.getLastColumn()
-  var statusRangeLR = formResSheet.getLastRow()
-  var conditionaFormatRange = formResSheet.getRange(2,1,statusRangeLR-1+1000,statusRangeLC)
+  var statusRangeLC = formSheet.getLastColumn()
+  var statusRangeLR = formSheet.getLastRow()
+  var conditionaFormatRange = formSheet.getRange(2,1,statusRangeLR-1+1000,statusRangeLC)
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
@@ -145,34 +145,34 @@ function createRecruitingStatusCol() {
 
 
 
-  var conditionalFormatRules = formResSheet.getConditionalFormatRules()
+  var conditionalFormatRules = formSheet.getConditionalFormatRules()
   conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4, formatRule5)
-  formResSheet.setConditionalFormatRules(conditionalFormatRules)
+  formSheet.setConditionalFormatRules(conditionalFormatRules)
 
   recStatusRange.setHorizontalAlignment("left")
 }
 
 
-function createAgeCol() {
+function createAgeCol(formSheet) {
   spreadsheetInfo()
 
-  var lastColumn = formResSheet.getLastColumn()
-  formResSheet.insertColumnAfter(lastColumn)
+  var lastColumn = formSheet.getLastColumn()
+  formSheet.insertColumnAfter(lastColumn)
 
-  formResSheet.getRange(1,lastColumn+1)
+  formSheet.getRange(1,lastColumn+1)
   .setFormula(`={"Age";ARRAYFORMULA(IF(INDIRECT(Settings!K16)<>"",YEAR(TODAY()) - Year(DATE(INDIRECT(Settings!K16),1,1)),""))}`)
 
-  var a1AgeRange = formResSheet.getRange(1,lastColumn+1,formResSheet.getLastRow()).getA1Notation()
-  formResSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
+  var a1AgeRange = formSheet.getRange(1,lastColumn+1,formSheet.getLastRow()).getA1Notation()
+  formSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
 }
 
 
 //Formats Headers in Form Responses Sheet
-function formatHeaders(){
+function formatHeaders(formSheet){
   spreadsheetInfo()
 
-  var lastColumn = formResSheet.getLastColumn()
-  formResSheet.getRange(1,1,1,lastColumn)
+  var lastColumn = formSheet.getLastColumn()
+  formSheet.getRange(1,1,1,lastColumn)
   .setBackground('#2e3192')
   .setFontColor('#ffffff')
   .setFontWeight("bold")
@@ -212,22 +212,22 @@ function renameFormResponses(){
 
 
 
-function deleteBlankColumns(){
+function deleteBlankColumns(formSheet){
   spreadsheetInfo()
-  var maxColumn = formResSheet.getMaxColumns()
-  var lastColumn = formResSheet.getLastColumn()
+  var maxColumn = formSheet.getMaxColumns()
+  var lastColumn = formSheet.getLastColumn()
 
-  if(maxColumn-lastColumn > 0){formResSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)}
+  if(maxColumn-lastColumn > 0){formSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)}
   //Logger.log(maxColumn-lastColumn)
   return
 }
 
-function deleteMostBlankRows(){
+function deleteMostBlankRows(formSheet){
   spreadsheetInfo()
-  var maxRow = formResSheet.getMaxRows()
-  var lastRow = formResSheet.getLastRow()
+  var maxRow = formSheet.getMaxRows()
+  var lastRow = formSheet.getLastRow()
 
-  if( maxRow-lastRow -100 > 0){formResSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
+  if( maxRow-lastRow -100 > 0){formSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
   //Logger.log(maxRow-lastRow -100)
   return
 }
@@ -235,4 +235,16 @@ function deleteMostBlankRows(){
 
 function toast(message, tittle, timeoutSeconds){
   ss.toast(message, tittle, timeoutSeconds)
+}
+
+
+function setRangesInSettings()
+{
+  for(var i=4;i < 17;i+=2){
+
+    settingsSheet.getRange(`K${i}`)
+  .setFormula(`=LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)&"2:"&LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)`)
+  Logger.log("K"+i)
+  }
+return
 }
