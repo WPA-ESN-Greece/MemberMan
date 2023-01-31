@@ -72,6 +72,8 @@ function oneClickSetUp(){
   renameFormResponses()
 
   setRangesInSettings()
+
+  membersSheet.getRange('C1').setFormula(`=QUERY({INDIRECT("'Form responses'!C1:1")},"select *")`)
 }
 
 
