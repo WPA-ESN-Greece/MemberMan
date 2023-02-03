@@ -68,12 +68,12 @@ function oneClickSetUp(){
   deleteMostBlankRows(newFormSheet)
 
   formatHeaders(newFormSheet)
-
+  
   renameFormResponses()
+  
+  condtionalFormating(formResSheet)
 
   setRangesInSettings()
-
-  membersSheet.getRange('C1').setFormula(`=QUERY({INDIRECT("'Form responses'!C1:1")},"select *")`)
 }
 
 

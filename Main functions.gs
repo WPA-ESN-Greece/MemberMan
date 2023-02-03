@@ -105,6 +105,12 @@ function createRecruitingStatusCol(formSheet) {
   recStatusRange.setDataValidations(rules)
   
 
+  
+}
+
+
+function condtionalFormating(formSheet){
+
   //Sets Conditional formating rules
   var statusRangeLC = formSheet.getLastColumn()
   var statusRangeLR = formSheet.getLastRow()
@@ -164,8 +170,8 @@ function createAgeCol(formSheet) {
 
   var a1AgeRange = formSheet.getRange(1,lastColumn+1,formSheet.getLastRow()).getA1Notation()
   formSheet.getRange(a1AgeRange).setHorizontalAlignment("center")
-}
 
+}
 
 //Formats Headers in Form Responses Sheet
 function formatHeaders(formSheet){
