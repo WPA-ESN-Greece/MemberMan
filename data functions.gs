@@ -88,3 +88,30 @@ function registerdStatus(e){
   formResSheet.getRange(row,col-1).setValue("Registered")
 
 }
+
+
+function refreshData(sheet) {
+  
+  var sheetName = sheet.getName()
+
+  switch(sheetName){
+
+    case 0:
+    sheetName = formResSheet.getName()
+    break
+    case 1:
+    sheetName = settingsSheet.getName()
+    var range = settingsSheet.getRange('J4:K16')
+    range.setFormulas(myRange.getFormulas())
+    break
+    case 2:
+    sheetName = membersSheet.getName()
+    var range = settingsSheet.getRange('B1:C1')
+    range.setFormulas(myRange.getFormulas())
+    break
+
+  }
+  //var myRange = settingsSheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
+
+  //myRange.setFormulas(myRange.getFormulas())
+}

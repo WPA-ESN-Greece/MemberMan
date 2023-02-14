@@ -1,3 +1,6 @@
-function myFunction() {
+function test()
+{
+
+  deleteMostBlankRows(formResSheet)
 
 }

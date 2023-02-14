@@ -74,6 +74,11 @@ function oneClickSetUp(){
   condtionalFormating(formResSheet)
 
   setRangesInSettings()
+  
+  refreshData(formResSheet)
+  refreshData(UsersSheet)
+  refreshData(membersSheet)
+  refreshData(settingsSheet)
 }
 
 

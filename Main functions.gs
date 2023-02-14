@@ -6,6 +6,7 @@ var UsersSheet = ss.getSheetByName('users')
 var settingsSheet = ss.getSheetByName('Settings')
 var membersSheet = ss.getSheetByName('Members')
 var formResSheet = ss.getSheetByName('Form responses')
+var ss = SpreadsheetApp.getActiveSpreadsheet()
 var FORM_ID = settingsSheet.getRange('C3').getValue()
 
 function spreadsheetInfo(){
@@ -14,7 +15,7 @@ function spreadsheetInfo(){
   var UsersSheet = ss.getSheetByName('users')
   var settingsSheet = ss.getSheetByName('Settings')
   var membersSheet = ss.getSheetByName('Members')
-  //var formResSheet = ss.getSheetByName('Form responses')
+  var formResSheet = ss.getSheetByName('Form responses')
 
 }
 
@@ -155,6 +156,7 @@ function condtionalFormating(formSheet){
   conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4, formatRule5)
   formSheet.setConditionalFormatRules(conditionalFormatRules)
 
+  var recStatusRange = formSheet.getRange('A2:A')
   recStatusRange.setHorizontalAlignment("left")
 }
 
@@ -217,25 +219,38 @@ function renameFormResponses(){
 }
 
 
-
-function deleteBlankColumns(formSheet){
+function deleteBlankColumns(sheet)
+{
   spreadsheetInfo()
+
+  var formSheet = ss.getSheetByName(sheet.getName())
+
   var maxColumn = formSheet.getMaxColumns()
   var lastColumn = formSheet.getLastColumn()
 
-  if(maxColumn-lastColumn > 0){formSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)}
-  //Logger.log(maxColumn-lastColumn)
-  return
+  if(maxColumn-lastColumn > 0)
+  {
+    formSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
+    //Logger.log(maxColumn-lastColumn)
+  }
+
 }
 
-function deleteMostBlankRows(formSheet){
+
+function deleteMostBlankRows(formSheet)
+{
+
   spreadsheetInfo()
+
   var maxRow = formSheet.getMaxRows()
   var lastRow = formSheet.getLastRow()
 
-  if( maxRow-lastRow -100 > 0){formSheet.deleteRows(lastRow+1, maxRow-lastRow -100)}
+  if( maxRow-lastRow -100 > 0)
+  {
+    formSheet.deleteRows(lastRow+1, maxRow-lastRow -100)
+  }
   //Logger.log(maxRow-lastRow -100)
-  return
+  
 }
 
 
@@ -246,11 +261,12 @@ function toast(message, tittle, timeoutSeconds){
 
 function setRangesInSettings()
 {
-  for(var i=4;i < 17;i+=2){
+  for(var i=4;i < 17;i+=2)
+  {
 
     settingsSheet.getRange(`K${i}`)
   .setFormula(`=LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)&"2:"&LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)`)
   Logger.log("K"+i)
   }
-return
+
 }
