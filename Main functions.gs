@@ -105,17 +105,15 @@ function createRecruitingStatusCol(formSheet) {
   }
   recStatusRange.setDataValidations(rules)
   
-
-  
 }
 
 
 function condtionalFormating(formSheet){
 
   //Sets Conditional formating rules
-  var statusRangeLC = formSheet.getLastColumn()
-  var statusRangeLR = formSheet.getLastRow()
-  var conditionaFormatRange = formSheet.getRange(2,1,statusRangeLR-1+1000,statusRangeLC)
+  var lastColumn = formSheet.getLastColumn()
+  var lastRow = formSheet.getLastRow()
+  var conditionaFormatRange = formSheet.getRange(2,1,lastRow - 1,lastColumn)
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()

@@ -89,6 +89,22 @@ function registerdStatus(e){
 
 }
 
+/*function refreshDataSettings()
+{
+  spreadsheetInfo()
+
+  var range = settingsSheet.getRange('J4:K16')
+  range.setFormulas(myRange.getFormulas())
+}
+
+function refreshDataMembers()
+{
+  spreadsheetInfo()
+
+  var range =     sheetName = membersSheet.getName()
+.getRange('J4:K16')
+  range.setFormulas(myRange.getFormulas())
+}*/
 
 function refreshData(sheet) {
   
@@ -102,12 +118,12 @@ function refreshData(sheet) {
     case 1:
     sheetName = settingsSheet.getName()
     var range = settingsSheet.getRange('J4:K16')
-    range.setFormulas(myRange.getFormulas())
+    range.setFormulas(range.getFormulas())
     break
     case 2:
     sheetName = membersSheet.getName()
     var range = settingsSheet.getRange('B1:C1')
-    range.setFormulas(myRange.getFormulas())
+    range.setFormulas(range.getFormulas())
     break
 
   }
