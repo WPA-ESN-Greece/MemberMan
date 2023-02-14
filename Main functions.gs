@@ -217,11 +217,11 @@ function renameFormResponses(){
 }
 
 
-function deleteBlankColumns(sheet)
+function deleteBlankColumns(formSheet)
 {
   spreadsheetInfo()
 
-  var formSheet = ss.getSheetByName(sheet.getName())
+  //var formSheet = ss.getSheetByName(sheet.getName())
 
   var maxColumn = formSheet.getMaxColumns()
   var lastColumn = formSheet.getLastColumn()
