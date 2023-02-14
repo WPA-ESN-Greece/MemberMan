@@ -32,7 +32,7 @@ function initMenu() {
   
   menu.addItem("📤 Email Credentials to New Users","emailCredentials")
   menu.addItem("🦸‍♀️ Move Accepted to Members","acceptedToMembers")
-  menu.addItem("🚮 Delete Regected Responses","deleteRejected")
+  menu.addItem("🚮 Delete Rejected Responses","deleteRejected")
 
   menu.addSeparator()
 
