@@ -221,15 +221,12 @@ function deleteBlankColumns(formSheet)
 {
   spreadsheetInfo()
 
-  //var formSheet = ss.getSheetByName(sheet.getName())
-
   var maxColumn = formSheet.getMaxColumns()
   var lastColumn = formSheet.getLastColumn()
 
   if(maxColumn-lastColumn > 0)
   {
     formSheet.deleteColumns(lastColumn+1, maxColumn-lastColumn)
-    //Logger.log(maxColumn-lastColumn)
   }
 
 }

@@ -89,45 +89,12 @@ function registerdStatus(e){
 
 }
 
-/*function refreshDataSettings()
+function refreshData(sheet,rangeA1)
 {
   spreadsheetInfo()
-
-  var range = settingsSheet.getRange('J4:K16')
-  range.setFormulas(myRange.getFormulas())
-}
-
-function refreshDataMembers()
-{
-  spreadsheetInfo()
-
-  var range =     sheetName = membersSheet.getName()
-.getRange('J4:K16')
-  range.setFormulas(myRange.getFormulas())
-}*/
-
-function refreshData(sheet) {
+  var sheetName = ss.getSheetByName(sheet.getName())
   
-  var sheetName = sheet.getName()
-
-  switch(sheetName){
-
-    case 0:
-    sheetName = formResSheet.getName()
-    break
-    case 1:
-    sheetName = settingsSheet.getName()
-    var range = settingsSheet.getRange('J4:K16')
-    range.setFormulas(range.getFormulas())
-    break
-    case 2:
-    sheetName = membersSheet.getName()
-    var range = settingsSheet.getRange('B1:C1')
-    range.setFormulas(range.getFormulas())
-    break
-
-  }
-  //var myRange = settingsSheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
-
-  //myRange.setFormulas(myRange.getFormulas())
+  var range =  sheetName.getRange(String(rangeA1))
+  range.setFormulas(range.getFormulas())
 }
+
