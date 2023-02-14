@@ -108,8 +108,8 @@ function createRecruitingStatusCol(formSheet) {
 }
 
 
-function condtionalFormating(formSheet){
-
+function condtionalFormating(sheet){
+  var formSheet = ss.getSheetByName(sheet.getName())
   //Sets Conditional formating rules
   var lastColumn = formSheet.getLastColumn()
   var lastRow = formSheet.getLastRow()

@@ -71,8 +71,6 @@ function oneClickSetUp(){
   
   renameFormResponses()
   
-  condtionalFormating(newFormSheet)
-
   //setRangesInSettings()
 
   refreshData(membersSheet,"B1:C1")
@@ -82,6 +80,7 @@ function oneClickSetUp(){
   refreshData(UsersSheet,"K2")
   refreshData(newFormSheet,"O1")
 
+  condtionalFormating(newFormSheet)
 }
 
 
