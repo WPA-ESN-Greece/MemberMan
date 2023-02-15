@@ -86,6 +86,7 @@ function oneClickSetUp(){
   refreshData(newFormSheet,"O1")
 
   condtionalFormating(newFormSheet)
+  setTrigers()
 }
 
 
