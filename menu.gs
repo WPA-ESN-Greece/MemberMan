@@ -1,12 +1,10 @@
 // Automatically runs when the spreadsheet is opened.
 function onOpen(e){
-  
   authPopUp()
   initMenu()
-  runTrigers()
 }
 
-//Authentication
+//Authentication Window
 function authPopUp()
 {
 
@@ -20,16 +18,6 @@ function authPopUp()
     SpreadsheetApp.getUi().showModalDialog(message,"Authentication")
 
   }
-
-}
-
-//Trigers
-function runTrigers(){
-
-  ScriptApp.newTrigger('registerdStatus')
-  .forSpreadsheet(ss)
-  .onFormSubmit()
-  .create()
 
 }
 

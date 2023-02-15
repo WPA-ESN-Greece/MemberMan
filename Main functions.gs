@@ -1,3 +1,13 @@
+//Trigers
+function setTrigers(){
+
+  ScriptApp.newTrigger('registerdStatus')
+  .forSpreadsheet(ss)
+  .onFormSubmit()
+  .create()
+
+}
+
 //Global Variables
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
 var ui = SpreadsheetApp.getUi()
