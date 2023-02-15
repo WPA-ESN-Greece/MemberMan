@@ -1,7 +1,8 @@
 // Automatically runs when the spreadsheet is opened.
-function onOpen(e){
-  authPopUp()
+function onOpen(){
   initMenu()
+  authPopUp()
+  
 }
 
 //Authentication Window
