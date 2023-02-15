@@ -10,7 +10,7 @@ function onOpen(){
 function runTrigers(){
 
   ScriptApp.newTrigger('registerdStatus')
-  .forSpreadsheet(formResSheet)
+  .forSpreadsheet(ss)
   .onFormSubmit()
   .create()
 
