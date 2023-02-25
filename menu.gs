@@ -66,6 +66,8 @@ function oneClickSetUp(){
    var newFormSheet = ss.getSheetByName(sheet[0].getSheetName())
    }
 
+  authPopUp()
+
   //For Form responses Sheet
   createRecruitingStatusCol(newFormSheet)
   createAgeCol(newFormSheet)

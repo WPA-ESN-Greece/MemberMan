@@ -125,31 +125,31 @@ function condtionalFormating(sheet){
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E4")') //Contacted
+      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E4")') //Contacted
       .setBackground("#c9daf8")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule2 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E5")') //Pending Coctact
+      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E5")') //Pending Coctact
       .setBackground("#fff2cc")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule3 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E6")') //Accepted
+      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E6")') //Accepted
       .setBackground("#d9ead3")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule4 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E7")') //Rejected
+      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E7")') //Rejected
       .setBackground("#f4cccc")
       .setRanges([conditionaFormatRange])
       .build()
 
     var formatRule5 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E8")') //Accepted & Transferred
+      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E8")') //Accepted & Transferred
       .setBackground("#d9ead3")
       .setFontColor("#274e13")
       .setItalic(true)
