@@ -57,9 +57,7 @@ function deleteRejected(){
 
     if(row[0] == rejectText && row[2] != ""){
       
-      //var targetRow = formResSheet.getRange(index+2,1,1,lastCol+1)
       var indexPlusTwo = index +2
-      //Logger.log(indexPlusTwo)
 
       indexToDelete.push(indexPlusTwo)
 
@@ -82,10 +80,9 @@ function deleteRejected(){
 function registerdStatus(e){
 
   var range = e.range
-  var col = range.getColumn()
   var row = range.getRow()
 
-  formResSheet.getRange(row,col-1).setValue("Registered")
+  formResSheet.getRange(row,1,1,1).setValue("Registered")
 
 }
 

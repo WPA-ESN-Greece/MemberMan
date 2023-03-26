@@ -24,8 +24,8 @@ function authPopUp()
 
 
 //Triggers when the linked form gets a new sybmition.
-function onFormSubmit(e){
-  registerdStatus(e)
+function onFormSubmit(){
+  registerdStatus()
 }
 
 
@@ -89,6 +89,7 @@ function oneClickSetUp(){
   refreshData(newFormSheet,"O1")
 
   condtionalFormating(newFormSheet)
+  
   setTrigers()
 }
 

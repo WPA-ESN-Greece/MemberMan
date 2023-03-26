@@ -1,6 +1,6 @@
 //Global Variables
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
-var ui = SpreadsheetApp.getUi()
+
 var ss = SpreadsheetApp.getActiveSpreadsheet()
 var UsersSheet = ss.getSheetByName('users')
 var settingsSheet = ss.getSheetByName('Settings')
@@ -121,7 +121,7 @@ function condtionalFormating(sheet){
   //Sets Conditional formating rules
   var lastColumn = formSheet.getLastColumn()
   var lastRow = formSheet.getLastRow()
-  var conditionaFormatRange = formSheet.getRange(2,1,lastRow - 1,lastColumn)
+  var conditionaFormatRange = formSheet.getRange(1,1,lastRow - 1,lastColumn)
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
@@ -252,7 +252,7 @@ function deleteMostBlankRows(formSheet)
   {
     formSheet.deleteRows(lastRow+1, maxRow-lastRow -100)
   }
-  //Logger.log(maxRow-lastRow -100)
+
   
 }
 
