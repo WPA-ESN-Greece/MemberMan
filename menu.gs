@@ -1,14 +1,12 @@
 // Automatically runs when the spreadsheet is opened.
 function onOpen(){
-  initMenu()
   authPopUp()
-  
+  initMenu()
 }
 
 //Authentication Window
 function authPopUp()
 {
-
   var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
   
   if (authInfo.getAuthorizationStatus() == 'REQUIRED'){
@@ -17,15 +15,13 @@ function authPopUp()
     var ui = SpreadsheetApp.getUi()
     var message = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">Authenticate your script.<a href="${authUrl}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
     SpreadsheetApp.getUi().showModalDialog(message,"Authentication")
-
   }
-
 }
 
 
 //Triggers when the linked form gets a new sybmition.
-function onFormSubmit(){
-  registerdStatus()
+function onFormSubmit(e){
+  registerdStatus(e)
 }
 
 
@@ -41,6 +37,13 @@ function initMenu() {
   menu.addItem("🚮 Delete Rejected Responses","deleteRejected")
 
   menu.addSeparator()
+
+  if (settingsSheet.getRange("C15").getValue() === true)
+  {
+    menu.addItem("Create Google Users for 'Candidate Member'","")
+    
+    menu.addSeparator()
+  }
 
   var submenu = ui.createMenu("🔨 Set Up")
   submenu.addItem("📝 Create New Form","createNewRecruitmentForm")
@@ -66,8 +69,6 @@ function oneClickSetUp(){
    var newFormSheet = ss.getSheetByName(sheet[0].getSheetName())
    }
 
-  authPopUp()
-
   //For Form responses Sheet
   createRecruitingStatusCol(newFormSheet)
   createAgeCol(newFormSheet)
@@ -89,7 +90,6 @@ function oneClickSetUp(){
   refreshData(newFormSheet,"O1")
 
   condtionalFormating(newFormSheet)
-  
   setTrigers()
 }
 

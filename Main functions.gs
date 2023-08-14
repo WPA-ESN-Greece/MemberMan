@@ -1,6 +1,6 @@
 //Global Variables
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
-
+//var ui = SpreadsheetApp.getUi()
 var ss = SpreadsheetApp.getActiveSpreadsheet()
 var UsersSheet = ss.getSheetByName('users')
 var settingsSheet = ss.getSheetByName('Settings')
@@ -121,35 +121,35 @@ function condtionalFormating(sheet){
   //Sets Conditional formating rules
   var lastColumn = formSheet.getLastColumn()
   var lastRow = formSheet.getLastRow()
-  var conditionaFormatRange = formSheet.getRange(1,1,lastRow - 1,lastColumn)
+  var conditionaFormatRange = formSheet.getRange(2,1,lastRow - 1,lastColumn)
 
 
   var formatRule1 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E4")') //Contacted
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E4")') //Contacted
       .setBackground("#c9daf8")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule2 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E5")') //Pending Coctact
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E5")') //Pending Coctact
       .setBackground("#fff2cc")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule3 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E6")') //Accepted
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E6")') //Accepted
       .setBackground("#d9ead3")
       .setRanges([conditionaFormatRange])
       .build()
 
   var formatRule4 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E7")') //Rejected
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E7")') //Rejected
       .setBackground("#f4cccc")
       .setRanges([conditionaFormatRange])
       .build()
 
     var formatRule5 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$A1=INDIRECT("Settings!E8")') //Accepted & Transferred
+      .whenFormulaSatisfied('=$A2=INDIRECT("Settings!E8")') //Accepted & Transferred
       .setBackground("#d9ead3")
       .setFontColor("#274e13")
       .setItalic(true)
@@ -252,7 +252,7 @@ function deleteMostBlankRows(formSheet)
   {
     formSheet.deleteRows(lastRow+1, maxRow-lastRow -100)
   }
-
+  //Logger.log(maxRow-lastRow -100)
   
 }
 
