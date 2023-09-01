@@ -40,7 +40,7 @@ function initMenu() {
 
   if (settingsSheet.getRange("C15").getValue() === true)
   {
-    menu.addItem("Create Google Users for 'Candidate Member'","")
+    menu.addItem("👤 Create Google Users for 'Candidate Member'","addCandidateToGoogleWorkspace")
     
     menu.addSeparator()
   }

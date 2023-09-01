@@ -37,7 +37,6 @@ function appendRowFromTop(sheet, rowData, optIndex, optColIndex){
 
 
 
-//var rowCount = 0
 function deleteRejected(){
   var ui = SpreadsheetApp.getUi()
   

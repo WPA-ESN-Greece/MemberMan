@@ -1,3 +1,4 @@
-function myFunction() {
-
+function test()
+{
+  
 }
