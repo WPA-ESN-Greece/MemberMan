@@ -57,7 +57,6 @@ function authPopUp()
 {
   var ui = FormApp.getUi()
 
-
   var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
   let authStatus = authInfo.getAuthorizationStatus()
   Logger.log("authStatus " + authStatus)
