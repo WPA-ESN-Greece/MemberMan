@@ -1,34 +1,19 @@
 // Automatically runs when the spreadsheet is opened.
-function onOpen(){
-  authPopUp()
+function onOpen(e)
+{
   initMenu()
 }
 
-//Authentication Window
-function authPopUp()
-{
-  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
-  
-  if (authInfo.getAuthorizationStatus() == 'REQUIRED'){
-
-    var authUrl = authInfo.getAuthorizationUrl()
-    var ui = SpreadsheetApp.getUi()
-    var message = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">Authenticate your script.<a href="${authUrl}"target="_blank">here</a></p>`).setWidth(400).setHeight(60)
-    SpreadsheetApp.getUi().showModalDialog(message,"Authentication")
-  }
-}
-
-
 //Triggers when the linked form gets a new sybmition.
-function onFormSubmit(e){
+function onFormSubmit(e)
+{
   registerdStatus(e)
 }
 
 
-
 // Initializes the custom menu.
-function initMenu() {
-  
+function initMenu() 
+{
   var ui = SpreadsheetApp.getUi()
   var menu = ui.createMenu("🌌 ESN Menu")
   
@@ -37,13 +22,13 @@ function initMenu() {
   menu.addItem("🚮 Delete Rejected Responses","deleteRejected")
 
   menu.addSeparator()
-
+ /*
   if (settingsSheet.getRange("C15").getValue() === true)
   {
     menu.addItem("👤 Create Google Users for 'Candidate Member'","addCandidateToGoogleWorkspace")
     
     menu.addSeparator()
-  }
+  }*/
 
   var submenu = ui.createMenu("🔨 Set Up")
   submenu.addItem("📝 Create New Form","createNewRecruitmentForm")
@@ -58,16 +43,46 @@ function initMenu() {
 }
 
 
-function oneClickSetUp(){
+//Authentication Window
+function authPopUp()
+{
+  var ui = SpreadsheetApp.getUi()
 
-  spreadsheetInfo()
+  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
+  let authStatus = authInfo.getAuthorizationStatus()
+
+  Logger.log("authStatus " + authStatus)
+
+  if (authStatus === ScriptApp.AuthorizationStatus.REQUIRED)
+  {
+    var authUrl = authInfo.getAuthorizationUrl()
+    
+    var message = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">Authenticate your script.<a href="${authUrl}" target="_blank">here</a></p>`).setWidth(400).setHeight(60)
+    ui.showModalDialog(message,"Authentication")
+
+  }
+  else if ( authStatus === ScriptApp.AuthorizationStatus.NOT_REQUIRED)
+  {
+    ui.alert("Your form is all set.", ui.ButtonSet.OK)
+  }
+}
+
+
+
+
+
+
+function oneClickSetUp()
+{
 
   var searchText = "Form responses"
   var sheets = ss.getSheets()
   var sheet = sheets.filter(s => s.getSheetName().includes(searchText))
-  if (sheet.length > 0){
+
+  if (sheet.length > 0)
+  {
    var newFormSheet = ss.getSheetByName(sheet[0].getSheetName())
-   }
+  }
 
   //For Form responses Sheet
   createRecruitingStatusCol(newFormSheet)

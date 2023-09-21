@@ -27,13 +27,6 @@ function acceptedToMembers() {
   }
 
 
-function appendRowFromTop(sheet, rowData, optIndex, optColIndex){
-    
-  var index = optIndex || 1
-  var vindex = optColIndex || 1
-  sheet.insertRowBefore(index).getRange(index,vindex,1,rowData.length).setValues([rowData])
-
-}
 
 
 
@@ -77,16 +70,7 @@ function deleteRejected(){
 }
 
 
-// Set "Registered" in the recruiting status column
-function registerdStatus(e){
 
-  var range = e.range
-  var col = range.getColumn()
-  var row = range.getRow()
-
-  formResSheet.getRange(row,col-1).setValue("Registered")
-
-}
 
 function refreshData(sheet,rangeA1)
 {

@@ -1,14 +1,19 @@
 {
   "timeZone": "Europe/Athens",
-  "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8",
   "dependencies": {
     "enabledAdvancedServices": [
       {
         "userSymbol": "AdminDirectory",
         "serviceId": "admin",
         "version": "directory_v1"
+      },
+      {
+        "userSymbol": "Sheets",
+        "version": "v4",
+        "serviceId": "sheets"
       }
     ]
-  }
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
 }
