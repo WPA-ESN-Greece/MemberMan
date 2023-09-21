@@ -43,21 +43,52 @@ function renameFormResponsesSheet(newName)
   sheets[0].setName(newName)
 }
 
-
-function appendRowFromTop(sheet, rowData, optIndex, optColIndex)
+/**
+ * Inserts a new row at the specified position in a Google Sheets spreadsheet
+ * and populates it with data.
+ *
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet - The Google Sheets sheet where the row will be inserted.
+ * @param {number} rowDataNumber - The number of columns to populate in the new row.
+ * @param {number} [rowIndex=1] - The index of the row before which the new row will be inserted. Default is 1 (top).
+ * @param {number} [columnIndex=1] - The index of the column where the new row's data will start. Default is 1 (leftmost column).
+ * @returns {void}
+ *
+ * ```javascript
+ * // Example usage:
+ * var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+ * appendRowFromTop(sheet, 3); // Inserts a row at the top with 3 columns.
+ * ```
+ */
+function appendRowFromTop(sheet, rowDataNumber, rowIndex, columnIndex)
 {
-  var index = optIndex || 1
-  var vindex = optColIndex || 1
-  sheet.insertRowBefore(index).getRange(index,vindex,1,rowData.length).setValues([rowData])
+  var index = rowIndex || 1
+  var verticalIndex = columnIndex || 1
+  sheet.insertRowBefore(index).getRange(index, verticalIndex, 1, rowDataNumber)//.setValues([rowData])
+}
+
+/**
+ * Sets values to a specified range in a Google Sheets spreadsheet.
+ *
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet - The Google Sheets sheet containing the range.
+ * @param {string} range - The A1 notation of the range where values will be set (e.g., 'A1:B2').
+ * @param {Array<Array<any>>} values - The 2D array of values to set in the specified range.
+ * @returns {void}
+ *
+ * ```
+ * // Example usage:
+ * var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+ * var range = 'A1:B2';
+ * var values = [[1, 2], [3, 4]];
+ * setValueToRange(sheet, range, values);
+ * ```
+ */
+function setValueToRange(sheet, range, values)
+{
+  sheet.getRange(range).setValues([values])
 }
 
 
-// Generates the 'users' sheet link in the Settings
-function generateUsersLink()
-{
-  settingsSheet.getRange('C10').setValue(ss.getUrl()+'#gid='+UsersSheet.getSheetId())
-  toast("The users sheet link is ready in the Settings.","🎉 Done!")
-}
+
 
 
 // Gets the ID of a google doc file (Doc, spredsheet, presentation, form), folder or script from its URL.
@@ -110,10 +141,27 @@ function extractDocumentIdFromUrl(url)
   }
 }
 
+/**
+ * Searches for a column with a specified name in a Google Sheets spreadsheet.
+ *
+ * @param {string} columnName - The name of the column to search for.
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet - The Google Sheets sheet to search within.
+ * @returns {number} The index of the found column (1-based), or -1 if not found.
+ *
+ * ```
+ * // Example usage:
+ * var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+ * var columnName = "Name"; // Replace with the desired column name.
+ * var columnIndex = searchForColumnNamed(columnName, sheet);
+ * if (columnIndex !== -1) {
+ *   Logger.log("Column '" + columnName + "' found at index: " + columnIndex);
+ * } else {
+ *   Logger.log("Column '" + columnName + "' not found.");
+ * }
+ * ```
+ */
 function searchForColumnNamed(columnName, sheet)
 {
-  //Search for the "Completed Tasks" Colimn Index.
-  //var columnName = PASSED_TASKS_COLUMN_HEADER
   var firstRowValues = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
   
   var wantedColumnIndex = findArrayIndexOfText(firstRowValues, columnName)
@@ -181,23 +229,50 @@ function formatColumnHeaders(sheet)
   .setFontColor('#ffffff')
   .setFontWeight("bold")
   .setHorizontalAlignment("left")
-  .setVerticalAlignment("top")
+  .setVerticalAlignment("middle")
   .setFontFamily("Roboto")
   .setWrap(true)
 
   Logger.log("Column Headers have been formated.")
 }
 
-/* NOT SURE IF I NEED THIS ANYMORE.
-function setRangesInSettings()
+
+/**
+ * Links the contents of a cell in a Google Sheets spreadsheet to a specified URL
+ * with custom label and formatting.
+ *
+ * @param {string} label - The label text that will be displayed in the linked cell.
+ * @param {string} url - The URL to which the cell content will be linked.
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet - The Google Sheets sheet containing the cell.
+ * @param {string} cell - The cell address (A1 notation) where the linked content will be placed.
+ * @returns {void}
+ *
+ * ```javascript
+ * // Example usage:
+ * var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+ * var label = "Visit Google";
+ * var url = "https://www.google.com";
+ * var cell = "A1";
+ * linkCellContents(label, url, sheet, cell);
+ * ```
+ */
+function linkCellContents(label,url,sheet,cell) 
 {
-  for(var i=4;i < 17;i+=2)
-  {
+ var range = sheet.getRange(cell)
 
-    settingsSheet.getRange(`K${i}`)
-  .setFormula(`=LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)&"2:"&LEFT(ADDRESS(1,MATCH(I${i},INDIRECT("Form responses!1:1"),0),4),1)`)
-  Logger.log("K"+i)
-  }
+ var style = SpreadsheetApp.newTextStyle()
+      .setItalic(false)
+      .setBold(true)
+      .setFontFamily("Roboto")
+      .setFontSize(10)
+      .setForegroundColor("#ffffff")
+      .setUnderline(true)
+      .build()
 
+ var richValue = SpreadsheetApp.newRichTextValue()
+ .setText(label)
+ .setLinkUrl(url)
+ .setTextStyle(style)
+   
+ range.setRichTextValue(richValue.build());
 }
-*/

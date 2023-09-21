@@ -112,6 +112,19 @@ class GoogleUser
         Logger.log('Failed with error %s', err.message)
       }
     }
+
+    suspendGoogleUser()
+    {
+      try 
+      {
+        user.suspended = true
+        Logger.log('User %s created with ID %s.', user.primaryEmail, user.id)
+      } 
+      catch (err) 
+      {
+        Logger.log('Failed with error %s', err.message)
+      }
+    }
 }
 
 
@@ -278,3 +291,4 @@ function listAllGoogleUsersEmails() {
   //Logger.log("getemail " +  usersEmailAddresses)
   return usersEmailAddresses
 }
+

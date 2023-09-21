@@ -12,7 +12,12 @@ function test()
 
 function test123()
 {
+
   
+  var log =
+  Join_Form_Responses_SHEET.getRange(1, 1)
+
+  Logger.log(log)
 }
 
 

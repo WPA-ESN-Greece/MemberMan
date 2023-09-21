@@ -1,83 +1,71 @@
-function acceptedToMembers() {
-
-  var lastRow = formResSheet.getLastRow()
-  var lastCol = formResSheet.getLastColumn()
-  var range = formResSheet.getRange(2,1,lastRow,lastCol).getValues()
-
-  var acceptedText = settingsSheet.getRange('E6').getValue()
-
-  range.forEach(function(row,index){
-
-    if(row[0] == acceptedText && row[2] != ''){
-
-      var targetRow = formResSheet.getRange(index+2,1,1,lastCol).getValues()
-     
-      var pasteRow = targetRow[0]
-      pasteRow.shift(); pasteRow.shift()
-
-
-      appendRowFromTop(membersSheet,pasteRow,2,3)
-      formResSheet.getRange(index+2,1).setValue(settingsSheet.getRange('E8').getValues())
-
-        //https://www.youtube.com/watch?v=ShcdwNh7wD0 how the appending a row works
-    }
-
-  })
-    toast("Accepted entries have been copied to Members Sheet.","🎉 Accepted they were!")
-  }
 
 
 
 
 
-function deleteRejected(){
-  var ui = SpreadsheetApp.getUi()
-  
-  var buttonPressed = ui.alert("This action cannot be undone. Are you sure you want to procceed?",ui.ButtonSet.YES_NO)
-
-  if(buttonPressed == ui.Button.NO){return}
-    
-  var lastRow = formResSheet.getLastRow()
-  var lastCol = formResSheet.getLastColumn()
-  var formData = formResSheet.getRange(2,1,lastRow,lastCol).getValues()
-
-  var rejectText = settingsSheet.getRange('E7').getValue()
-
-  var indexToDelete = []
-
-  formData.forEach(function(row,index){
-
-    if(row[0] == rejectText && row[2] != ""){
-      
-      //var targetRow = formResSheet.getRange(index+2,1,1,lastCol+1)
-      var indexPlusTwo = index +2
-      //Logger.log(indexPlusTwo)
-
-      indexToDelete.push(indexPlusTwo)
-
-    }
-
-  })
-
-  var indexToDeleteSorted = indexToDelete.sort((a,b)=>b-a)
-
-  for(var i = 0; i < indexToDelete.length; i++){
-
-    formResSheet.deleteRow(indexToDeleteSorted[i])
-
-  }
-  toast("..but not for the recruiter.","🎉 Rejecton hurts...")
-}
 
 
 
 
-function refreshData(sheet,rangeA1)
+
+
+// Sends Emails to new users with ESN Email, single use password and Google log in link.
+function emailCredentials() 
 {
   spreadsheetInfo()
-  var sheetName = ss.getSheetByName(sheet.getName())
+
+  var lastRow = UsersSheet.getLastRow()-1
+  var userData = UsersSheet.getRange(2,1,lastRow,26).getValues()
+
+  var member = {
+    name:'',
+    lastName:'',
+    esnEmail:'',
+    password:'',
+    recoveryEmail:''
+    }
+
+  var esnMail = ""
+  var esnMailPassword = ""
+  var subject = "Your New ESN Google Account Credentials"
+
+  //Data Loop
+  userData.forEach(function (row) {
   
-  var range =  sheetName.getRange(String(rangeA1))
-  range.setFormulas(range.getFormulas())
+  if(row[2] == "" && row[3] == ""){return} //Checks if there is an email address in each row.
+
+   member.name = row[0];
+   member.lastName = row[1];
+   esnMail = row[2];
+   esnMailPassword = row[3];
+   member.recoveryEmail = row[7];
+  
+  /*
+  var message = 
+    `<h2>Your New ESN Google Account is Ready!</h2>`+
+    `<p><b>ESN Email Address: </b> ${member.esnEmail}</p>` +
+    `<p><b>Single-Use Password: </b> ${member.password}</p>`+
+    `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
+     You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`*/
+
+
+  var htmlTemplate = HtmlService.createTemplateFromFile("email_template")
+  htmlTemplate.esnMail = row[2]
+  htmlTemplate.esnMailPassword = row[3]
+
+  var message = htmlTemplate.evaluate().getContent()
+
+  MailApp.sendEmail(
+    {
+            to: member.recoveryEmail,
+            cc: "",
+            subject: subject,
+            htmlBody: message,
+    }
+  )})
+
+toast("Now the new ESNers can log in to Google.","🎉 Emails sent")
 }
+
+
 

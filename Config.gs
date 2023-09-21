@@ -5,11 +5,6 @@
  * =========================================================================================================================================================================
  */
 
-// Section's Info
-  const SECTION_FULL_NAME = "Erasmus Student Network of Salamina"
-  const SECTION_SHORT_NAME = "ESN Salamina"
-  const UNIVERSITY_GREEK_NAME = "Πανεπηστήμιο Σαλαμίνας"
-
 // Documentation Doc URL.
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
 
@@ -37,12 +32,15 @@ const SpreadsheetID = ss.getId()
   const Users_Sheet_NAME = 'users'
   const Settings_Sheet_NAME = 'Settings'
   
-  
+// Timezone
+let TIMEZONE = Session.getScriptTimeZone()
 
 // Getting Sheets by Name
   let Join_Form_Responses_SHEET = ss.getSheetByName(Join_Form_Responses_Sheet_NAME)
+  
     // Join Form Responses Sheet Details
       const Recruitment_Status_Dropdown_Options_RANGE = "A2:A"
+      
   let Team_Update_Form_SHEET = ss.getSheetByName(Team_Update_Form_Sheet_NAME)
   
   let Members_SHEET = ss.getSheetByName(Members_Sheet_NAME)
@@ -52,4 +50,91 @@ const SpreadsheetID = ss.getId()
   let Settings_SHEET = ss.getSheetByName(Settings_Sheet_NAME)
 
 
+// Section's Info
+  const SECTION_FULL_NAME_CELL = "E11"
+  let SECTION_FULL_NAME = Settings_SHEET.getRange(SECTION_FULL_NAME_CELL).getValue()
+
+  const SECTION_SHORT_NAME_CELL = "E12"
+  let SECTION_SHORT_NAME = Settings_SHEET.getRange(SECTION_SHORT_NAME_CELL).getValue()
+
+  const UNIVERSITY_NAME_CELL = "E12"
+  let UNIVERSITY_NAME = Settings_SHEET.getRange(UNIVERSITY_NAME_CELL).getValue()
+  
+
+  // Section Technical Info
+    const SECTION_EMAIL_DOMAIN_CELL = "E4"
+    let SECTION_EMAIL_DOMAIN = Settings_SHEET.getRange(SECTION_EMAIL_DOMAIN_CELL).getValue()
+
+    const SECTION_GOOGLE_Organization_Unit_Path_CELL = "E3"
+    let SECTION_GOOGLE_Organization_Unit_Path = Settings_SHEET.getRange(SECTION_GOOGLE_Organization_Unit_Path_CELL).getValue()
+    
+    // Create Google Accounts option
+    const IS_Add_UsersToGoogleWorkplace_Active_CELL = "E5"
+    let IS_Add_UsersToGoogleWorkplace_Active = Settings_SHEET.getRange(IS_Add_UsersToGoogleWorkplace_Active_CELL).getValue()
+
+    // Members Group Settings
+    const IS_Members_Google_Group_Active_CELL = "E6"
+    let IS_Members_Google_Group_Active = Settings_SHEET.getRange(IS_Members_Google_Group_Active_CELL).getValue()
+    
+    const Members_Google_Group_CELL = "E7"
+    let Members_Google_Group = Settings_SHEET.getRange(Members_Google_Group_CELL).getValue()
+
+    // Alumni Group Settings
+    const IS_Alumni_Google_Group_Active_CELL = "E8"
+    let IS_Alumni_Google_Group_Active = Settings_SHEET.getRange(IS_Alumni_Google_Group_Active_CELL).getValue()
+
+    const Alumni_Google_Group_CELL = "E9"
+    let Alumni_Google_Group = Settings_SHEET.getRange(Alumni_Google_Group_CELL).getValue()
+
+    // Secret Status Varibles to  make menu items appear or not deppending on these statuses.
+    const IS_JoinForm_Created_CELL = "B1"
+    let IS_JoinForm_Created = Settings_SHEET.getRange(IS_JoinForm_Created_CELL).getValue()
+
+    const IS_TeamUpdateForm_Created_CELL = "B2"
+    let IS_TeamUpdateForm_Created = Settings_SHEET.getRange(IS_TeamUpdateForm_Created_CELL).getValue()
+
+
+// Users CSV Cell
+const CSV_LINK_CELL = "E20"
+
+
+// Settings Sheet Recruitment Satus Options Cells and Values.
+  const Recruitment_Status_OptionsinSettings_RANGE = "G3:G20"
+
+  const REGISTERED_CELL = "G3"
+  let REGISTERED = Settings_SHEET.getRange(REGISTERED_CELL).getValue()
+
+  const PENDING_CONTACT_CELL = "G4"
+  let PENDING_CONTACT = Settings_SHEET.getRange(PENDING_CONTACT_CELL).getValue()
+
+  const CONTACTED_CELL = "G5"
+  let CONTACTED = Settings_SHEET.getRange(CONTACTED_CELL).getValue()
+
+  const CANDIDATE_MEMBER_CELL = "G6"
+  let CANDIDATE_MEMBER = Settings_SHEET.getRange(CANDIDATE_MEMBER_CELL).getValue()
+
+  const ACCEPTED_CELL = "G7"
+  let ACCEPTED = Settings_SHEET.getRange(ACCEPTED_CELL).getValue()
+
+  const REJECTED_CELL = "G8"
+  let REJECTED = Settings_SHEET.getRange(REJECTED_CELL).getValue()
+
+  const ACCEPTED_TRANSFERRED_CELL = "G9"
+  let ACCEPTED_TRANSFERRED = Settings_SHEET.getRange(ACCEPTED_TRANSFERRED_CELL).getValue()
+
+// Settings Sheet Membership Satus Options Cells and Values.
+  
+
+  const CREATE_GOOGLE_ACCOUNT_CELL = "I4"
+  let CREATE_GOOGLE_ACCOUNT = Settings_SHEET.getRange(CREATE_GOOGLE_ACCOUNT_CELL).getValue()
+
+  const NEWBIE_CELL = "I5"
+  const ACTIVE_MEMBER_CELL = "I6"
+  const BOARD_SUPPORTER_CELL = "I7"
+  const BOARD_MEMBER_CELL = "I8"
+  const INACTIVE_CELL = "I9"
+  const FROZEN_MEMBERSHIP_CELL = "I10"
+  const ACTIVE_AGAIN_CELL = "I18"
+  const ALUMNI_CELL = "I19"
+  const RETIRED_CELL = "I20"
   
