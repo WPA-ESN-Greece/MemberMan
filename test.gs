@@ -12,10 +12,10 @@ function test()
 
 function test123()
 {
-
+  //deleteMostBlankRows(Alumni_SHEET)
   
   var log =
-  Join_Form_Responses_SHEET.getRange(1, 1)
+  Alumni_SHEET.getRange(2, 1, 1, Alumni_SHEET.getLastColumn()).getA1Notation()
 
   Logger.log(log)
 }

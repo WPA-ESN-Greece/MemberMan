@@ -1,4 +1,6 @@
-
+/**
+ * @OnlyCurrentDoc
+ */
 
 
 // Automatically runs when the spreadsheet is opened.
@@ -7,22 +9,31 @@ function onOpen(e)
   initMenu()
 }
 
-//Triggers when the linked form gets a new sybmition.
+// Triggers when the linked form gets a new sybmition.
 function onFormSubmit(e)
 {
   registerdStatus(e)
 }
 
+// Automatically runs when the spreadsheet is editted.
+function onEdit(e)
+{
+  transferBetweenMembers_Alumni(e)
+}
 
 // Generates the 'users' sheet link in the Settings
 function generateUsersCSVDownloadLink()
 {
-  //Settings_SHEET.getRange(CSV_LINK_CELL).setValue(ss.getUrl()+'#gid='+ UsersSheet.getSheetId()) 
-  let csvURL = ss.getUrl() + '#gid=' + Users_SHEET.getSheetId() 
+  // https://docs.google.com/spreadsheets/d/{SpredsheetID}/gviz/tq?tqx=out:csv&sheet={sheet_name}
+
+  let csvURL = `https://docs.google.com/spreadsheets/d/${ss.getId()}/gviz/tq?tqx=out:csv;outFileName:users&sheet=${Users_Sheet_NAME}`
 
   linkCellContents("Download users.csv", csvURL, Settings_SHEET, CSV_LINK_CELL)
 
   toast("The users sheet link is ready in the Settings.","🎉 Done!")
+
+  Settings_SHEET.getRange(IS_CSV_Link_Generated_CELL).setValue(true)
+  SpreadsheetApp.flush()
 }
 
 

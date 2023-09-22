@@ -6,11 +6,6 @@
         "userSymbol": "AdminDirectory",
         "serviceId": "admin",
         "version": "directory_v1"
-      },
-      {
-        "userSymbol": "Sheets",
-        "version": "v4",
-        "serviceId": "sheets"
       }
     ]
   },

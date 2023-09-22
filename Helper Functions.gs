@@ -2,31 +2,8 @@
  *  
  * Helper Functions
  * 
- * =========================================================================================================================================================================
+ *=========================================================================================================================================================================
  */
-
-//Authentication Window
-function authPopUp()
-{
-  var ui = SpreadsheetApp.getUi()
-
-  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
-  let authStatus = authInfo.getAuthorizationStatus()
-
-  Logger.log("authStatus " + authStatus)
-
-  if (authStatus === ScriptApp.AuthorizationStatus.REQUIRED)
-  {
-    var authUrl = authInfo.getAuthorizationUrl()
-    var message = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">Authenticate your script.<a href="${authUrl}" target="_blank">here</a></p>`).setWidth(400).setHeight(60)
-    ui.showModalDialog(message,"Authentication")
-  }
-  else if ( authStatus === ScriptApp.AuthorizationStatus.NOT_REQUIRED)
-  {
-    ui.alert("Your Spreadsheet is all set.", ui.ButtonSet.OK)
-  }
-}
-
 
 
 
@@ -63,7 +40,7 @@ function appendRowFromTop(sheet, rowDataNumber, rowIndex, columnIndex)
 {
   var index = rowIndex || 1
   var verticalIndex = columnIndex || 1
-  sheet.insertRowBefore(index).getRange(index, verticalIndex, 1, rowDataNumber)//.setValues([rowData])
+  sheet.insertRowBefore(index).getRange(index, verticalIndex, 1, rowDataNumber)
 }
 
 /**

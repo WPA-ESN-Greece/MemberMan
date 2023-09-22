@@ -16,12 +16,16 @@ function initMenu()
   menu.addSeparator()
 
   //menu.addItem("Setup Wizard 🧙‍♂️", "")
-  if (IS_JoinForm_Created == false) {menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
-  
-  menu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")
+  if (IS_JoinForm_Created == false) { menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
+
+  submenu = ui.createMenu("Options")
+
+    if (IS_CSV_Link_Generated == false) {submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")}
+
+  menu.addSubMenu(submenu)
 
   menu.addSeparator()
-
+  
   menu.addItem("📑 View Documentation","showDocumentation")
 
   menu.addToUi()
