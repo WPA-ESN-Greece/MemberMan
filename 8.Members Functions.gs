@@ -5,6 +5,59 @@
  */
 
 // Transffers members data between two sheets with the same structure. (Members and Alumni in this case).
+function transferDataFromMembersToAlumni()
+{
+  var startRow = 2
+  var statusToCheck = ALUMNI
+  var lastRow = Members_SHEET.getLastRow()
+  var lastColumn = Members_SHEET.getLastColumn()
+  var membersData = Members_SHEET.getRange(startRow,1,lastRow,lastColumn).getValues()
+  var rowsIndexToDelete = []
+
+  membersData.forEach(function(row, index) 
+  {
+    // row[2] = First Name, row[3] = Lastnamw, row[6] = Contact Email, row[11] = Became Member Date, row[12] = ESN Account Link
+    if(row[0] === statusToCheck && row[2] != '' && row[3] != '' && row[6] != '' && row[11] != '' && row[12] != '')
+    {
+      rowsIndexToDelete.push(index + startRow)
+
+      var targetRow = Members_SHEET.getRange(index + startRow, 1, 1, lastColumn).getValues()
+
+      Logger.log("targetRow: " + targetRow)
+
+      appendRowFromTop(Alumni_SHEET, targetRow[0].length, startRow)
+      setValueToRange(Alumni_SHEET, Alumni_SHEET.getRange(startRow, 1, 1, Alumni_SHEET.getLastColumn()).getA1Notation(), targetRow[0])
+      //Members_SHEET.deleteRow(index + startRow)
+
+      if (row[14].length === 0)
+      {
+        setValueToRange(Alumni_SHEET, Became_Alumni_Date_CELL, [Utilities.formatDate(new Date(), TIMEZONE, "dd/MM/yyyy")])
+      }
+      else 
+      {
+      var alumniDate = String(row[14])
+      var outPutDates = String(Utilities.formatDate(new Date(), TIMEZONE, "dd/MM/yyyy")) + ", " + alumniDate
+      setValueToRange(Alumni_SHEET, Became_Alumni_Date_CELL, [outPutDates])
+      }
+
+      removeUserFromGoogleGroup(row[1], Members_Google_Group)
+
+      if (IS_Alumni_Google_Group_Active == true)
+      {
+        addUserToGoogleGroup(row[1], Alumni_Google_Group)
+      }
+    }
+  })
+  
+  rowsIndexToDelete.sort().reverse()
+  Logger.log("rowsIndexToDelete " + rowsIndexToDelete)
+  for (var i = 0; i < rowsIndexToDelete.length; i++)
+  {
+    Members_SHEET.deleteRow(rowsIndexToDelete[i])
+  }
+}
+
+// Transffers members data between two sheets with the same structure. (Members and Alumni in this case).
 function transferDataFromSheetToSheet(fromSheet, toSheet, statusToCheck, startRow)
 {
   var lastRow = fromSheet.getLastRow()

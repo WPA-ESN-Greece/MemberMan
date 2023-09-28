@@ -20,14 +20,14 @@ function initMenu()
   submenuMembers = ui.createMenu("Members Operations")
   //
     submenuMembers.addItem("🔰 Create Google Accounts", "bulkCreateGoogleUsers")
-    submenuMembers.addItem("🦖 Members to Alumni", "transferMembersToAlumni")
+    submenuMembers.addItem("🦖 Members to Alumni", "transferDataFromMembersToAlumni")
 
   menu.addSubMenu(submenuMembers)
 
 
   submenuAlumni = ui.createMenu("Alumni Operations")
   //
-    submenuAlumni.addItem("🦕 Alumni to Members", "transferAlumniToMembers")
+    submenuAlumni.addItem("🦕 Alumni to Members", "transferDataFromAlumniToMembers")
 
   menu.addSubMenu(submenuAlumni)
 
@@ -53,15 +53,7 @@ function initMenu()
 }
 
 
-function transferMembersToAlumni()
-{
-  transferDataFromSheetToSheet(Members_SHEET, Alumni_SHEET, ALUMNI, 2)
-}
 
-function transferAlumniToMembers()
-{
-  transferDataFromSheetToSheet(Alumni_SHEET, Members_SHEET, ACTIVE_AGAIN, 2)
-}
 
 
 

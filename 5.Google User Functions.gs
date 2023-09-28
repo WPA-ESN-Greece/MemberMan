@@ -131,6 +131,21 @@ function addUserToGoogleGroup(primaryEmail, groupEmailAddress)
   }
 }
 
+function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
+{ 
+  if (checkGroupMembership(primaryEmail, groupEmailAddress)) //If the user's email IS a member of the group.
+  {   
+    try 
+    {
+      AdminDirectory.Members.remove(groupEmailAddress, primaryEmail)
+      console.log('User %s removed from group %s.', primaryEmail, groupEmailAddress)
+    }
+    catch (err) 
+    {
+      console.log('Failed with error %s', err.message)
+    }    
+  }
+}
 
 /**
  * Removes a user from a Google Group if the user is a member.
@@ -139,6 +154,7 @@ function addUserToGoogleGroup(primaryEmail, groupEmailAddress)
  * @param {string} groupEmailAddress - The email address of the Google Group.
  * @throws {Error} Throws an error if there's an issue with the "AdminDirectory" API call.
  */
+/*
 function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
 {
   try {
@@ -156,16 +172,10 @@ function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
   {
     console.log('Failed with error %s', err.message)
   }
-}
+}*/
 
 function checkGroupMembership(userEmail, groupName) 
 {
-  //var userEmail = Session.getActiveUser().getEmail();
-  //var groupName = "nb@esngreece.gr"; // Replace with your Google Group's email address
-  
-  //var emails = SECTION_EMAIL_Admin
-  //emails.split()
-
   var groupMembers = GroupsApp.getGroupByEmail(String(groupName)).getUsers()
   Logger.log(groupMembers)
 

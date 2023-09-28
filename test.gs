@@ -47,6 +47,10 @@ function getUser() {
   }
 }
 
+function del()
+{
+  removeUserFromGoogleGroup("tuser1@esngreece.gr", Members_Google_Group)
+}
 
 function createNewUser123()
 {
