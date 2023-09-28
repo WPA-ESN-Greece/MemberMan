@@ -61,9 +61,12 @@ let TIMEZONE = Session.getScriptTimeZone()
   
   let Members_SHEET = ss.getSheetByName(Members_Sheet_NAME)
     const Query_Formula_Column_Members = "Q1"
+    const Became_Member_Date_CELL = "L2"
+    const ESN_Email_Address_CELL = "B2"
 
   let Alumni_SHEET = ss.getSheetByName(Alumni_Sheet_NAME)
     const Query_Formula_Column_Alumni = Query_Formula_Column_Members
+    const Became_Alumni_Date_CELL = "O2"
 
   let Users_SHEET = ss.getSheetByName(Users_Sheet_NAME)
   let Settings_SHEET = ss.getSheetByName(Settings_Sheet_NAME)
@@ -83,6 +86,9 @@ let TIMEZONE = Session.getScriptTimeZone()
 
 
   // Section Technical Info
+    const SECTION_EMAIL_Admin_CELL = "E2"
+    let SECTION_EMAIL_Admin = Settings_SHEET.getRange(SECTION_EMAIL_Admin_CELL).getValue()
+    
     const SECTION_EMAIL_DOMAIN_CELL = "E4"
     let SECTION_EMAIL_DOMAIN = Settings_SHEET.getRange(SECTION_EMAIL_DOMAIN_CELL).getValue()
 
@@ -132,6 +138,8 @@ const CSV_LINK_CELL = "E20"
 // Settings Sheet Recruitment Satus Options Cells and Values.
   const Recruitment_Status_OptionsinSettings_RANGE = "G3:G20"
 
+  const EndColumnofPrimaryMemberData  = "Τμήμα Φοίτησης"
+
   const REGISTERED_CELL = "G3"
   let REGISTERED = Settings_SHEET.getRange(REGISTERED_CELL).getValue()
 
@@ -150,32 +158,35 @@ const CSV_LINK_CELL = "E20"
   const REJECTED_CELL = "G8"
   let REJECTED = Settings_SHEET.getRange(REJECTED_CELL).getValue()
 
-  const ACCEPTED_TRANSFERRED_CELL = "G9"
+  const ACCEPTED_TRANSFERRED_CELL = "G20"
   let ACCEPTED_TRANSFERRED = Settings_SHEET.getRange(ACCEPTED_TRANSFERRED_CELL).getValue()
 
 
 
 // Settings Sheet Membership Satus Options Cells and Values.
-  const CREATE_GOOGLE_ACCOUNT_CELL = "I4"
+  const CREATE_GOOGLE_ACCOUNT_CELL = "I3"
   let CREATE_GOOGLE_ACCOUNT = Settings_SHEET.getRange(CREATE_GOOGLE_ACCOUNT_CELL).getValue()
 
-  const NEWBIE_CELL = "I5"
+  const NEWBIE_CELL = "I4"
   let NEWBIE = Settings_SHEET.getRange(NEWBIE_CELL).getValue()
 
-  const ACTIVE_MEMBER_CELL = "I6"
+  const ACTIVE_MEMBER_CELL = "I5"
   let ACTIVE_MEMBER = Settings_SHEET.getRange(ACTIVE_MEMBER_CELL).getValue()
 
-  const BOARD_SUPPORTER_CELL = "I7"
+  const BOARD_SUPPORTER_CELL = "I6"
   let BOARD_SUPPORTER = Settings_SHEET.getRange(BOARD_SUPPORTER_CELL).getValue()
 
-  const BOARD_MEMBER_CELL = "I8"
+  const BOARD_MEMBER_CELL = "I7"
   let BOARD_MEMBER = Settings_SHEET.getRange(BOARD_MEMBER_CELL).getValue()
 
-  const INACTIVE_CELL = "I9"
+  const INACTIVE_CELL = "I8"
   let INACTIVE = Settings_SHEET.getRange(INACTIVE_CELL).getValue()
 
-  const FROZEN_MEMBERSHIP_CELL = "I10"
+  const FROZEN_MEMBERSHIP_CELL = "I9"
   let FROZEN_MEMBERSHIP = Settings_SHEET.getRange(FROZEN_MEMBERSHIP_CELL).getValue()
+
+  const IN_ESN_INT_CELL = "I10"
+  let IN_ESN_INT = Settings_SHEET.getRange(IN_ESN_INT_CELL).getValue()
 
   const ACTIVE_AGAIN_CELL = "I18"
   let ACTIVE_AGAIN = Settings_SHEET.getRange(ACTIVE_AGAIN_CELL).getValue()

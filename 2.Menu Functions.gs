@@ -4,32 +4,65 @@
 
 function initMenu()
 {
-  var ui, menu, submenu
+  var ui, menu, submenu, submenuJoinForm, submenuMembers, submenuAlumni, submenuSetup
   
   ui = SpreadsheetApp.getUi()
-
   menu = ui.createMenu("🌌 ESN Menu")
 
-  menu.addItem("🦸‍♀️ Move Accepted to Members", "acceptedFromJoinformToMembers")
-  menu.addItem("🚮 Delete Rejected Responses", "deleteRejectedRecruits")
+  submenuJoinForm = ui.createMenu("Join Form Operations")
+  //
+    submenuJoinForm.addItem("🦸‍♀️ Accepted to Members", "acceptedFromJoinformToMembers")
+    submenuJoinForm.addItem("🚮 Delete Rejected Responses", "deleteRejectedRecruits")
+
+  menu.addSubMenu(submenuJoinForm)
+
+  
+  submenuMembers = ui.createMenu("Members Operations")
+  //
+    submenuMembers.addItem("🔰 Create Google Accounts", "bulkCreateGoogleUsers")
+    submenuMembers.addItem("🦖 Members to Alumni", "transferMembersToAlumni")
+
+  menu.addSubMenu(submenuMembers)
+
+
+  submenuAlumni = ui.createMenu("Alumni Operations")
+  //
+    submenuAlumni.addItem("🦕 Alumni to Members", "transferAlumniToMembers")
+
+  menu.addSubMenu(submenuAlumni)
+
+
 
   menu.addSeparator()
 
   //menu.addItem("Setup Wizard 🧙‍♂️", "")
-  if (IS_JoinForm_Created == false) { menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
+  if (IS_JoinForm_Created == false) {menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
 
   submenu = ui.createMenu("Options")
-
-    if (IS_CSV_Link_Generated == false) {submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")}
-
+  //
+    //if (IS_CSV_Link_Generated == false) {submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")}
+    submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")
+  
   menu.addSubMenu(submenu)
 
   menu.addSeparator()
-  
+
   menu.addItem("📑 View Documentation","showDocumentation")
 
   menu.addToUi()
 }
+
+
+function transferMembersToAlumni()
+{
+  transferDataFromSheetToSheet(Members_SHEET, Alumni_SHEET, ALUMNI, 2)
+}
+
+function transferAlumniToMembers()
+{
+  transferDataFromSheetToSheet(Alumni_SHEET, Members_SHEET, ACTIVE_AGAIN, 2)
+}
+
 
 
 /*

@@ -16,14 +16,16 @@ function onFormSubmit(e)
 }
 
 // Automatically runs when the spreadsheet is editted.
+/*
 function onEdit(e)
 {
-  transferBetweenMembers_Alumni(e)
-}
+  //transferBetweenMembers_Alumni(e)
+}*/
 
 // Generates the 'users' sheet link in the Settings
 function generateUsersCSVDownloadLink()
 {
+  // Download data.csv file url template.
   // https://docs.google.com/spreadsheets/d/{SpredsheetID}/gviz/tq?tqx=out:csv&sheet={sheet_name}
 
   let csvURL = `https://docs.google.com/spreadsheets/d/${ss.getId()}/gviz/tq?tqx=out:csv;outFileName:users&sheet=${Users_Sheet_NAME}`

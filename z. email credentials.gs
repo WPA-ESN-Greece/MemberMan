@@ -10,7 +10,7 @@
 
 
 // Sends Emails to new users with ESN Email, single use password and Google log in link.
-function emailCredentials() 
+function emailCredentialsFromUserssheet() 
 {
   spreadsheetInfo()
 
