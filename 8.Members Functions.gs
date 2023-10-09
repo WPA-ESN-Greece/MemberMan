@@ -158,8 +158,8 @@ function bulkCreateGoogleUsers()
           }
           catch(err)
           {
-          ui.alert(err.message, ui.ButtonSet.OK)
-          Logger.log('Failed with error %s', err.message)
+            ui.alert(err.message, ui.ButtonSet.OK)
+            Logger.log('Failed with error %s', err.message)
           }
 
           // Email the Login Credentials to the recovery email address of members.

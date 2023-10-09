@@ -284,7 +284,8 @@ function listAllGoogleUsers()
   return allUsers;
 }
 
-function listAllGoogleUsersEmails() {
+function listAllGoogleUsersEmails() 
+{
   var users = listAllGoogleUsers();
   var usersEmailAddresses = []
   if (users.length > 0) {
@@ -317,17 +318,16 @@ function checkIfUserIsAdmin()
 }
 
 
-function suspendGoogleUser()
+function suspendGoogleUser(userEmail)
 {
-  var userEmail = "testis@esngreece.gr"
-  
   var user = AdminDirectory.Users.get(userEmail)
 
   if (user.suspended == false) 
   {
     user.suspended = true
   }
-
+  
   AdminDirectory.Users.update(user, userEmail)
-  Logger.log(AdminDirectory.Users.get(userEmail))
+  
+  //Logger.log(AdminDirectory.Users.get(userEmail))
 }

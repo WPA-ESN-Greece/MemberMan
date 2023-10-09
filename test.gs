@@ -35,25 +35,60 @@ function test543()
 }
 
 
-function getUser() {
-  // TODO (developer) - Replace userEmail value with yours
-  const userEmail = 'main-auditor@esngreece.gr';
-  try {
-    const user = AdminDirectory.Users.get(userEmail);
-    console.log('User data:\n %s', JSON.stringify(user, null, 2));
-  } catch (err) {
+function getUser(userEmail) 
+{
+  var userEmail = 'wpa@esngreece.gr'
+  try 
+  {
+    const user = AdminDirectory.Users.get(userEmail)
+    console.log('User data:\n %s', JSON.stringify(user, null, 2))
+  } 
+  catch (err) 
+  {
     // TODO (developer)- Handle exception from the API
-    console.log('Failed with error %s', err.message);
+    console.log('Failed with error %s', err.message)
   }
 }
+// "isDelegatedAdmin": false,
+//  "orgUnitPath": "/Sections/ESN TUC",
+//  "isAdmin": true,
 
-function del()
-{
-  removeUserFromGoogleGroup("tuser1@esngreece.gr", Members_Google_Group)
-}
+function replacePlaceholderInGDPRTextInForm123()
+  {
+    var form = FormApp.openById(formID)
 
-function createNewUser123()
-{
-          
-  insertNewGoogleUser("ESN Mykonos", "testis@esngreece.gr", "Testis" + "@esn", "Testis", "Useropoulos", "inikolarakis+test@tuc.esngreece.gr", "+306985856489", "/Test") 
-}
+    // GDPR Text
+    var items = form.getItems()
+    let gdprItemID = items[items.length - 1].getId()
+    var gdprText = form.getItemById(gdprItemID).getHelpText()
+
+    // repeats as many times as "{{ESN Section's Full Name}}" appears in GDPR text.
+    for (var i = 0; i < (gdprText.match(/{{ESN Section's Full Name}}/g) || []).length; i++)
+    {
+      gdprText = gdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+    }
+    
+    // repeats as many times as "{{ESN Section's Name}}" appears in GDPR text.
+    for (var i = 0; i < (gdprText.match(/{{ESN Section's Name}}/g) || []).length; i++)
+    {
+      gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    }
+
+    // Sets the final GDPR text in the form. 
+    form.getItemById(gdprItemID).setHelpText(gdprText)
+
+    // Form Description Text
+    let formDescription = form.getDescription()
+
+    // repeats as many times as "{{Πανεπιστήμιο Σαντορίνης}}" appears in the form description text.
+    for (var i = 0; i < (formDescription.match(/{{Πανεπιστήμιο Σαντορίνης}}/g) || []).length; i++)
+    {
+      formDescription = formDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
+    }
+    
+    // Sets form final description.
+    form.setDescription(formDescription)
+
+    // Form Title Text
+    form.setTitle( form.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
+  }

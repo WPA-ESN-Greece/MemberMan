@@ -21,6 +21,9 @@ function createNewRecruitmentForm()
   var form = FormApp.openById(newJoinTheTeamFormID)
 
   form.setDestination(FormApp.DestinationType.SPREADSHEET, SpreadsheetID)
+
+  // Sets the Join Form URL in the Settings Sheet.
+  linkCellContents(JOIN_FORM_NAME, newJoinTheTeamFormURL, Settings_SHEET, JoinForm_LINK_CELL)
   
   SpreadsheetApp.flush()
 
@@ -34,7 +37,7 @@ function createNewRecruitmentForm()
   createAgeColumn()
   formatColumnHeaders(Join_Form_Responses_SHEET)
   setTrigerForRegisteredStatus()
-  replacePlaceholderInGDPRTextInForm(newJoinTheTeamFormID)
+  replacePlaceholderTextInForm(newJoinTheTeamFormID)
 
   // Sets a Query formula at "Query_Formula_Column_Members" cell in Members sheet to automatically get the form questions from the Join Form sheet.
   let joinFormResponsesLastColumnA1Notation = Join_Form_Responses_SHEET.getRange(10, Join_Form_Responses_SHEET.getLastColumn(), 1).getA1Notation().slice(0,2)
@@ -184,7 +187,7 @@ function createNewRecruitmentForm()
     .create()
   }
 
-  function replacePlaceholderInGDPRTextInForm(formID)
+  function replacePlaceholderTextInForm(formID)
   {
     var form = FormApp.openById(formID)
 
@@ -192,18 +195,41 @@ function createNewRecruitmentForm()
     var items = form.getItems()
     let gdprItemID = items[items.length - 1].getId()
     var gdprText = form.getItemById(gdprItemID).getHelpText()
-    gdprText = gdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
-    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
-    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+
+    // repeats as many times as "{{ESN Section's Full Name}}" appears in GDPR text.
+    for (var i = 0; i < (gdprText.match(/{{ESN Section's Full Name}}/g) || []).length; i++)
+    {
+      gdprText = gdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+    }
+    
+    // repeats as many times as "{{ESN Section's Name}}" appears in GDPR text.
+    for (var i = 0; i < (gdprText.match(/{{ESN Section's Name}}/g) || []).length; i++)
+    {
+      gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    }
+
+    // Sets the final GDPR text in the form. 
     form.getItemById(gdprItemID).setHelpText(gdprText)
 
-    // Join Form Description Text
-    let joinFormDescription = form.getDescription()
-    joinFormDescription = joinFormDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
-    oinFormDescription = joinFormDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
-    form.setDescription(joinFormDescription)
+    // Form Description Text
+    let formDescription = form.getDescription()
 
-    // Join Form Title Text
+    // repeats as many times as "{{Πανεπιστήμιο Σαντορίνης}}" appears in the form description text.
+    for (var i = 0; i < (formDescription.match(/{{Πανεπιστήμιο Σαντορίνης}}/g) || []).length; i++)
+    {
+      formDescription = formDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
+    }
+
+    // repeats as many times as "{{ESN Section's Name}}" appears in the form description text.
+    for (var i = 0; i < (formDescription.match(/{{ESN Section's Name}}/g) || []).length; i++)
+    {
+      formDescription = formDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    }
+    
+    // Sets form final description.
+    form.setDescription(formDescription)
+
+    // Form Title Text
     form.setTitle( form.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
   }
 

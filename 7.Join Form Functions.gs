@@ -59,11 +59,13 @@ function acceptedFromJoinformToMembers()
   })
     
     rowsIndexToDelete.sort().reverse()
+    
     Logger.log("rowsIndexToDelete " + rowsIndexToDelete)
+    
     for (var i = 0; i < rowsIndexToDelete.length; i++)
-  {
-    Join_Form_Responses_SHEET.deleteRow(rowsIndexToDelete[i])
-  }
+    {
+      Join_Form_Responses_SHEET.deleteRow(rowsIndexToDelete[i])
+    }
     
     toast("Accepted entries have been copied to Members Sheet.","🎉 Accepted they were!")
   }

@@ -28,6 +28,7 @@ function initMenu()
   submenuAlumni = ui.createMenu("Alumni Operations")
   //
     submenuAlumni.addItem("🦕 Alumni to Members", "transferDataFromAlumniToMembers")
+    submenuAlumni.addItem("🚫 Disable Retired Emails", "disableRetiredGoogleAccounts")
 
   menu.addSubMenu(submenuAlumni)
 
@@ -37,6 +38,7 @@ function initMenu()
 
   //menu.addItem("Setup Wizard 🧙‍♂️", "")
   if (IS_JoinForm_Created == false) {menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
+  menu.addItem("📝 Create Team Update Form", "createNewTeamUpdateForm")
 
   submenu = ui.createMenu("Options")
   //

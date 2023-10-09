@@ -17,13 +17,10 @@ const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-
   const JOIN_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(JOIN_FORM_TEMPLATE_URL)
   const JOIN_FORM_NAME = "✨ Join the Team - Application Form | MemberMan"
 
-
-
-
 // Team Update Form
-  const TEAM_UPDATE_FORM_TEMPLATE_URL = ""
-  //const TEAM_UPDATE_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(TEAM_UPDATE_FORM_TEMPLATE_URL)
-  const TEAM_UPDATE_FORM_NAME = "Join the Team Form | MemberMan"
+  const TEAM_UPDATE_FORM_TEMPLATE_URL = "https://docs.google.com/forms/d/1vts9Xe5AXn5DvN8YnV_XLkc5YNnlft5NDgDHiZR5v8g/edit"
+  const TEAM_UPDATE_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(TEAM_UPDATE_FORM_TEMPLATE_URL)
+  const TEAM_UPDATE_FORM_NAME = "✨ Team Update Form | MemberMan"
 
 
 
@@ -54,10 +51,14 @@ let TIMEZONE = Session.getScriptTimeZone()
   let Join_Form_Responses_SHEET = ss.getSheetByName(Join_Form_Responses_Sheet_NAME)
   
     // Join Form Responses Sheet Details
-      const Recruitment_Status_Dropdown_Options_RANGE = "A2:A"
-      const JoinForm_Studies_Column = "L1"
+    const Recruitment_Status_Dropdown_Options_RANGE = "A2:A"
+    const JoinForm_Studies_Column = "L1"
+    const JoinForm_LINK_CELL = "E18"
       
   let Team_Update_Form_SHEET = ss.getSheetByName(Team_Update_Form_Sheet_NAME)
+    
+    // Team Updateform Details
+    const Team_Update_Form_LINK_CELL = "E19"
   
   let Members_SHEET = ss.getSheetByName(Members_Sheet_NAME)
     const Query_Formula_Column_Members = "Q1"
@@ -188,12 +189,15 @@ const CSV_LINK_CELL = "E20"
   const IN_ESN_INT_CELL = "I10"
   let IN_ESN_INT = Settings_SHEET.getRange(IN_ESN_INT_CELL).getValue()
 
-  const ACTIVE_AGAIN_CELL = "I18"
+  const ACTIVE_AGAIN_CELL = "I17"
   let ACTIVE_AGAIN = Settings_SHEET.getRange(ACTIVE_AGAIN_CELL).getValue()
 
-  const ALUMNI_CELL = "I19"
+  const ALUMNI_CELL = "I18"
   let ALUMNI = Settings_SHEET.getRange(ALUMNI_CELL).getValue()
 
-  const RETIRED_CELL = "I20"
+  const RETIRED_CELL = "I19"
   let RETIRED = Settings_SHEET.getRange(RETIRED_CELL).getValue()
+
+  const RETIRED_Disabled_CELL = "I20"
+  let RETIRED_Disabled = Settings_SHEET.getRange(RETIRED_Disabled_CELL).getValue()
   
