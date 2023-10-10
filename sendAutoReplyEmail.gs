@@ -3,8 +3,6 @@
 
 function sendAutoReplyEmail(emailTo)
 {
-  emailTo = "inikolarakis+esntest@gmail.com" //for testing
-
   let htmlTemplate = HtmlService.createTemplateFromFile("form auto reply email")
 
   htmlTemplate.emailTitle = TITLE
