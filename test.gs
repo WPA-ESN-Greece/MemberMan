@@ -1,29 +1,52 @@
-//Connect form with spreadsheet: https://developers.google.com/apps-script/reference/forms/form
-/*
-function test()
-{
-  var formID = "141GW2p_rs5h3OtU7gJYn9FXn_JNdjmk4HuSM0FN8DSo"
-  var form = FormApp.openById(formID);
-  //var formResponsesSheet = SpreadsheetApp.create//.create('Form Resp test');
-  //ss.insertSheet('Form Resp test', 0)
-  var formResponsesSheet = ss.getId()//.getSheetByName('Form Resp test').getSheetId()
-  form.setDestination(FormApp.DestinationType.SPREADSHEET, formResponsesSheet);
-}
-*/
+
 
 function test123()
 {
+  var formID = '1FS_z9I-ymp593O5dT6_VGip2L05MEekkgZlkCA9zgBY'
+  var form = FormApp.openById(formID)
+/*
+    // GDPR Text
+    var items = form.getItems()
+    var gdprItemID = items[items.length - 1].getId()
+    var gdprText = form.getItemById(gdprItemID).getHelpText()
+
+    gdprText = gdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    form.getItemById(gdprItemID).setHelpText(gdprText)
+
+    // Join Form Description Text
+    var joinFormDescription = form.getDescription()
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+    form.setDescription(joinFormDescription)
+*/
+
+    //var form = FormApp.openById(formID)
+
+    // GDPR Text
+    var items = form.getItems()
+    var gdprItemID = items[items.length - 1].getId()
+    var gdprText = form.getItemById(gdprItemID).getHelpText()
+    Logger.log(gdprText)
+
+    gdprText = gdprText.replace("{{ESN Section Full Legal Name}}", SECTION_FULL_NAME)
+    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+
+    Logger.log(gdprText)
+
+    form.getItemById(gdprItemID).setHelpText(gdprText)
+
   
-  var log = getUser("wpa@esngreece.gr").orgUnitPath
-  Logger.log(log)
-}
 
-function test543()
-{
-  var MembersEmailAddresses1 = Members_SHEET.getRange(2,2, Members_SHEET.getLastRow() - 2, 1).getValues().join().split()
+    // Join Form Description Text
+    var joinFormDescription = form.getDescription()
+    joinFormDescription = joinFormDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
+    oinFormDescription = joinFormDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
+    form.setDescription(joinFormDescription)
 
-  Logger.log(MembersEmailAddresses1.join())
-
-  Logger.log(MembersEmailAddresses1.join().includes("tuser1@esngreece.gr"))
+    // Join Form Title Text
+    form.setTitle( form.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
 }
 

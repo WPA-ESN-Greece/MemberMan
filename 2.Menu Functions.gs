@@ -89,7 +89,7 @@ function initialSetUp()
   SpreadsheetApp.flush()
 
   // Prompts for admin user's email address.
-  var adminEmail = ui.prompt("⚠️ Input the Admin's Email Address of your Section. By admin It's meant the person that has the permission to create Google users in your Google Workspace.").getResponseText()
+  var adminEmail = ui.prompt("⚠️ Input the Admin's Email Address of your Section. By admin It's meant the person that has the permission to create Google users in your Google Workspace. Most likely your WPA.").getResponseText()
   Settings_SHEET.getRange(SECTION_EMAIL_Admin_CELL).setValue(String(adminEmail))
 
   // Gets the active users Organization Unit Path.
@@ -160,11 +160,11 @@ function initialSetUp()
 
   // Creates Join The Team Form.
   toast("","Creating Join the team Form...")
-  createNewRecruitmentForm() 
+  createNewRecruitmentForm(sectionShortName , sectionUniName, sectionFullName) 
 
   // Creates Team Update Form.
   toast("","Creating Team Update Form...")
-  createNewTeamUpdateForm()
+  createNewTeamUpdateForm(sectionShortName , sectionFullName) 
 
   // Generates a URL to download user.CSV file. 
   generateUsersCSVDownloadLink()
@@ -178,6 +178,22 @@ function initialSetUp()
 
   SpreadsheetApp.flush()
   toast("Your MemberMan instance is ready for use!","🎉 MemberMan is Ready 🦸‍♂️")
+
+  // A pop up message to let the user know that the form is ready while providing a link.
+  var newJoinTheTeamFormURL = Settings_SHEET.getRange(JoinForm_LINK_CELL).getRichTextValue().getLinkUrl()
+  var newTeamUpdateFormURL = Settings_SHEET.getRange(Team_Update_Form_LINK_CELL).getRichTextValue().getLinkUrl() 
+
+  let joinFormCreationMessage = HtmlService.createHtmlOutput(`
+  <p style="font-family: 'Open Sans'">
+  You can find your new recruiting form <a href="${newJoinTheTeamFormURL}"target="_blank">here</a>.
+  Don't forget to enable the Auto-Reply email for submitions from the Add-On Menu 🧩 from the Form UI AND make sure that the questions are updated to match your needs and your information.
+  </p>
+  <hr>
+  <p style="font-family: 'Open Sans'">
+  Also check the questions in the Team Update Form <a href="${newTeamUpdateFormURL}"target="_blank">here</a>.
+  </p>
+  `).setWidth(400).setHeight(250)
+  ui.showModalDialog(joinFormCreationMessage,"Your 'Join the Team' Form is ready!")
 }
 
 

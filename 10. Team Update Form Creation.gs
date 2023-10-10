@@ -1,4 +1,4 @@
-function createNewTeamUpdateForm() 
+function createNewTeamUpdateForm(_SECTION_SHORT_NAME, _SECTION_FULL_NAME) 
 {
   var ui = SpreadsheetApp.getUi()
   
@@ -28,20 +28,19 @@ function createNewTeamUpdateForm()
   deleteMostBlankRows(Team_Update_Form_SHEET)
   deleteBlankColumns(Team_Update_Form_SHEET)
   formatColumnHeaders(Team_Update_Form_SHEET)
-  //replacePlaceholderTextInForm(newUpdateTeamFormID)
 
   // Replaces Placeholder texts based on given Section's info in the new Team Update Form.
-    var updateForm = FormApp.openById(newupdateTheTeamFormID)
+    var updateForm = FormApp.openById(newUpdateTeamFormID)
 
     // update Form Title Text. 
-    updateForm.setTitle( updateForm.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
+    updateForm.setTitle( updateForm.getTitle().replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME))
 
     // Form Description Text
     let updateFormDescription = updateForm.getDescription()
 
     // Does the text replacements.
-    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
-    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
+    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
     
     // Sets form final description.
     updateForm.setDescription(updateFormDescription)
@@ -51,10 +50,10 @@ function createNewTeamUpdateForm()
     let gdprItemID = items[items.length - 1].getId()
     let updateFormgdprText = updateForm.getItemById(gdprItemID).getHelpText()
 
-    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Full Name}}", _SECTION_FULL_NAME)
 
-    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
-    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
 
     // Sets form final gdpr text.
     updateForm.getItemById(gdprItemID).setHelpText(updateFormgdprText)

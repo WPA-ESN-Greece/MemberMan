@@ -16,7 +16,7 @@ const BUG_REPORT_FORM_URL = 'https://forms.gle/uSLYYNdvkGCZUjo58'
 // Join Form's URL.
   const JOIN_FORM_TEMPLATE_URL = "https://docs.google.com/forms/d/1Jqxas_rvNLNRzC70XFeWH2kIRrySNHuZn6uURt3c3mo/edit"
   const JOIN_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(JOIN_FORM_TEMPLATE_URL)
-  const JOIN_FORM_NAME = "🦸‍♀️ Join the Team - Application Form | MemberMan"
+  const JOIN_FORM_NAME = "🦸‍♀️ Join the Team Form | MemberMan"
 
 // Team Update Form
   const TEAM_UPDATE_FORM_TEMPLATE_URL = "https://docs.google.com/forms/d/1vts9Xe5AXn5DvN8YnV_XLkc5YNnlft5NDgDHiZR5v8g/edit"

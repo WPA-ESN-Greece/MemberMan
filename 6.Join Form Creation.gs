@@ -5,7 +5,7 @@
  ****************************************************************************************************************************/
 
 // Creates a new form from an existing file 
-function createNewRecruitmentForm() 
+function createNewRecruitmentForm(_SECTION_SHORT_NAME, _UNIVERSITY_NAME, _SECTION_FULL_NAME) 
 {
   var ui = SpreadsheetApp.getUi()
   
@@ -44,14 +44,14 @@ function createNewRecruitmentForm()
     var joinForm = FormApp.openById(newJoinTheTeamFormID)
 
     // Join Form Title Text. 
-    joinForm.setTitle( joinForm.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
+    joinForm.setTitle( joinForm.getTitle().replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME))
 
     // Form Description Text
     let joinFormDescription = joinForm.getDescription()
 
     // Does the text replacements.
-    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
-    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", _UNIVERSITY_NAME)
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", _UNIVERSITY_NAME)
     
     // Sets form final description.
     joinForm.setDescription(joinFormDescription)
@@ -61,10 +61,10 @@ function createNewRecruitmentForm()
     let gdprItemID = items[items.length - 1].getId()
     let joinFormgdprText = joinForm.getItemById(gdprItemID).getHelpText()
 
-    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section Full Legal Name}}", _SECTION_FULL_NAME)
 
-    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
-    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", _SECTION_SHORT_NAME)
 
     // Sets form final gdpr text.
     joinForm.getItemById(gdprItemID).setHelpText(joinFormgdprText)
