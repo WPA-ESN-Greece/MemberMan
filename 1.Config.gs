@@ -9,7 +9,8 @@
 // Documentation Doc URL.
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
 
-
+// Bug Report From.
+const BUG_REPORT_FORM_URL = 'https://forms.gle/uSLYYNdvkGCZUjo58'
 
 
 // Join Form's URL.

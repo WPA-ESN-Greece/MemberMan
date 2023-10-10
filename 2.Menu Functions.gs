@@ -57,6 +57,7 @@ function initMenu()
   menu.addSeparator()
 
   menu.addItem("📑 View Documentation","showDocumentation")
+  menu.addItem("🕷️ Report a Bug","showBugReport")
 
   menu.addToUi()
 }
@@ -154,6 +155,8 @@ function initialSetUp()
   Settings_SHEET.getRange(UNIVERSITY_NAME_CELL).setValue(sectionUniName)
   toast("","Section's University Name has been set in the Settings.")
 
+  SpreadsheetApp.flush();
+
   // Creates Join The Team Form.
   createNewRecruitmentForm()
 
@@ -162,11 +165,11 @@ function initialSetUp()
 
   // Generates a URL to download user.CSV file. 
   generateUsersCSVDownloadLink()
-  toast("","users.CSV URL Generated")
 
   // Creates a trigger to automatically open the custom menu.
   setOnOpenTrigger()
-  toast("","Trigger for 🌌 ESN Menu set")
+
+  Settings_SHEET.getRange(IS_Initial_SETUP_DONE_CELL).setValue("TRUE")
 
   SpreadsheetApp.flush()
   toast("Your MemberMan instance is ready for use!","🎉 MemberMan is Ready 🦸‍♂️")
@@ -179,4 +182,13 @@ function showDocumentation()
   let documentationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the documentation <a href="${DOCUMENTATION_LINK}"target="_blank">here</a>.</p>`).setWidth(400).setHeight(60)
 
   SpreadsheetApp.getUi().showModalDialog(documentationMessage,"📚 MemberMan Documentation")
+}
+
+
+//Bug Report Link pop-up
+function showBugReport()
+{
+  let bugReportMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find the Bug report Form <a href="${BUG_REPORT_FORM_URL}"target="_blank">here</a>.</p>`).setWidth(400).setHeight(60)
+
+  SpreadsheetApp.getUi().showModalDialog(bugReportMessage,"🕷️ MemberMan 2.0 - Report a Bug")
 }
