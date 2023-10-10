@@ -59,15 +59,17 @@ let TIMEZONE = Session.getScriptTimeZone()
     
     // Team Updateform Details
     const Team_Update_Form_LINK_CELL = "E19"
+    const UPDATED = "Updated"
   
   let Members_SHEET = ss.getSheetByName(Members_Sheet_NAME)
-    const Query_Formula_Column_Members = "Q1"
+    const Query_Formula_Column_Members = "R1"
     const Became_Member_Date_CELL = "L2"
     const ESN_Email_Address_CELL = "B2"
+    const How_Long_InESN_COLUMN = 13 // Colimn M
 
   let Alumni_SHEET = ss.getSheetByName(Alumni_Sheet_NAME)
     const Query_Formula_Column_Alumni = Query_Formula_Column_Members
-    const Became_Alumni_Date_CELL = "O2"
+    const Became_Alumni_Date_CELL = "P2"
 
   let Users_SHEET = ss.getSheetByName(Users_Sheet_NAME)
   let Settings_SHEET = ss.getSheetByName(Settings_Sheet_NAME)
@@ -81,7 +83,7 @@ let TIMEZONE = Session.getScriptTimeZone()
   const SECTION_SHORT_NAME_CELL = "E12"
   let SECTION_SHORT_NAME = Settings_SHEET.getRange(SECTION_SHORT_NAME_CELL).getValue()
 
-  const UNIVERSITY_NAME_CELL = "E12"
+  const UNIVERSITY_NAME_CELL = "E13"
   let UNIVERSITY_NAME = Settings_SHEET.getRange(UNIVERSITY_NAME_CELL).getValue()
   
 
@@ -128,6 +130,14 @@ let TIMEZONE = Session.getScriptTimeZone()
     // CSV Link Generation
     const IS_CSV_Link_Generated_CELL = "B3"
     let IS_CSV_Link_Generated = Settings_SHEET.getRange(IS_CSV_Link_Generated_CELL).getValue()
+
+    // Instalable OnOpen Triger is created. 
+    const IS_Instalable_OnOpenTrigger_Created_CELL = "B4"
+    let IS_Instalable_OnOpenTrigger_Created = Settings_SHEET.getRange(IS_Instalable_OnOpenTrigger_Created_CELL).getValue()
+
+    // Is Setup Done. 
+    const IS_Initial_SETUP_DONE_CELL = "B5"
+    let IS_Initial_SETUP_DONE = Settings_SHEET.getRange(IS_Initial_SETUP_DONE_CELL).getValue()
 
 
 
@@ -189,8 +199,15 @@ const CSV_LINK_CELL = "E20"
   const IN_ESN_INT_CELL = "I10"
   let IN_ESN_INT = Settings_SHEET.getRange(IN_ESN_INT_CELL).getValue()
 
+  const IN_ESN_NATIONAL_CELL = "I11"
+  let IN_ESN_NATIONAL = Settings_SHEET.getRange(IN_ESN_NATIONAL_CELL).getValue()
+
+  const IN_ESN_NAT_INT_CELL = "I12"
+  let IN_ESN_NAT_INT = Settings_SHEET.getRange(IN_ESN_NAT_INT_CELL).getValue()
+
   const ACTIVE_AGAIN_CELL = "I17"
   let ACTIVE_AGAIN = Settings_SHEET.getRange(ACTIVE_AGAIN_CELL).getValue()
+  
 
   const ALUMNI_CELL = "I18"
   let ALUMNI = Settings_SHEET.getRange(ALUMNI_CELL).getValue()

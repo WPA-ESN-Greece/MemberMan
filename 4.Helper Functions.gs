@@ -253,3 +253,93 @@ function linkCellContents(label,url,sheet,cell)
    
  range.setRichTextValue(richValue.build());
 }
+
+
+function getUser(userEmail) 
+{
+  try 
+  {
+    const user = AdminDirectory.Users.get(userEmail)
+    console.log('User data:\n %s', JSON.stringify(user, null, 2))
+    return user
+  } 
+  catch (err) 
+  {
+    console.log('Failed with error %s', err.message)
+  }
+}
+// "isDelegatedAdmin": false,
+//  "orgUnitPath": "/Sections/ESN TUC",
+//  "isAdmin": true,
+
+/**
+ * @see https://developers.google.com/apps-script/advanced/admin-sdk-directory
+ */
+function adminRoleCheck() 
+{
+  var userJSON = JSON.stringify(getUser(SECTION_EMAIL_Admin), null, 2) 
+  var userObj = JSON.parse(userJSON)
+  
+  var currentUserEmail = Session.getActiveUser().getEmail()
+
+  //Logger.log(userObj.isDelegatedAdmin)
+  //Logger.log(userObj)
+  
+  if (currentUserEmail === SECTION_EMAIL_Admin && (userObj.isAdmin == true || userObj.isDelegatedAdmin == true))
+  {
+    return true
+  }
+}
+
+
+function setOnOpenTrigger()
+{
+  ScriptApp.newTrigger('onOpenInstalled')
+    .forSpreadsheet(ss)
+    .onOpen()
+    .create()
+
+    Settings_SHEET.getRange(IS_Instalable_OnOpenTrigger_Created_CELL).setValue("TRUE")
+}
+
+
+// Date difference in Months.
+function dateDifferenceInMonths(latestDate, earliestDate)
+{
+  // To calculate the time difference of two dates 
+  var difference_In_Time = latestDate.getTime() - earliestDate.getTime()
+    
+  // To calculate the no. of days between two dates 
+  var difference_In_Days = difference_In_Time / (1000 * 3600 * 24)
+
+  var result = Math.floor(difference_In_Days / 30)
+
+  if (result <= 0)
+  {
+    return "Less than 1 Month"
+  }
+  else if (result > 0 && result < 12)
+  {
+    return (result + " Month(s)") 
+  }
+  else if (result >= 12)
+  {
+    switch (result % 12)
+    {
+      case 0:
+        return (Math.floor(result / 12) + " Year(s)")
+      break;
+      case 6:
+        return (Math.floor(result / 12) +".5" + " Years")
+      break;
+      default:
+        return (Math.floor(result / 12) + " Year(s)" + (result % 12) + " Month(s)")
+      break;
+    }
+  }
+  else
+  {
+    return (result + " Month(s)")
+  } 
+}
+  

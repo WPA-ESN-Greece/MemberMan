@@ -38,6 +38,7 @@ function createNewRecruitmentForm()
   formatColumnHeaders(Join_Form_Responses_SHEET)
   setTrigerForRegisteredStatus()
   replacePlaceholderTextInForm(newJoinTheTeamFormID)
+  toast("","Join The Team Form has been customized for your Section")
 
   // Sets a Query formula at "Query_Formula_Column_Members" cell in Members sheet to automatically get the form questions from the Join Form sheet.
   let joinFormResponsesLastColumnA1Notation = Join_Form_Responses_SHEET.getRange(10, Join_Form_Responses_SHEET.getLastColumn(), 1).getA1Notation().slice(0,2)
@@ -47,17 +48,12 @@ function createNewRecruitmentForm()
   // Sets a Query formula at "Query_Formula_Column_Alumni" cell in Alumni sheet to automatically get the form questions from the Join Form sheet.
   Alumni_SHEET.getRange(Query_Formula_Column_Alumni).setFormula(`={"Tempalte Column",QUERY(INDIRECT("'${Join_Form_Responses_Sheet_NAME}'!${JoinForm_Studies_Column}:${joinFormResponsesLastColumnA1Notation}1"),"SELECT *")}`)
   Alumni_SHEET.hideColumn(Alumni_SHEET.getRange(Query_Formula_Column_Alumni))  
-    
-  // A pop up message to let the user know that the form is ready while providing a link.
-  let joinFormCreationMessage = HtmlService.createHtmlOutput(`<p style="font-family: 'Open Sans'">You can find your new recruiting form <a href="${newJoinTheTeamFormURL}"target="_blank">here</a>.
-  Don't forget to Link the responses to this sheet from the responses tab and rename the new sheet "Form responses".</p>`).setWidth(400).setHeight(120)
-  ui.showModalDialog(joinFormCreationMessage,"Your 'Join the Team' Form is ready!")
 
   // Sets the is Join Form Created cell in the Settings Sheet to TRUE.
   Settings_SHEET.getRange(IS_JoinForm_Created_CELL).setValue(true)
 
   // A cuter pop up message on the bottom right. 
-  toast("","🎉 Your Form is ready!")
+  toast("","🎉 Your Join the Team Form is ready!")
 
   SpreadsheetApp.flush()
 }
@@ -200,12 +196,18 @@ function createNewRecruitmentForm()
     for (var i = 0; i < (gdprText.match(/{{ESN Section's Full Name}}/g) || []).length; i++)
     {
       gdprText = gdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+      Logger.log((gdprText.match(/{{ESN Section's Full Name}}/g) || []).length + " {{ESN Section's Full Name}}/GDPR")
+
+      form.getItemById(gdprItemID).setHelpText(gdprText)
     }
     
     // repeats as many times as "{{ESN Section's Name}}" appears in GDPR text.
     for (var i = 0; i < (gdprText.match(/{{ESN Section's Name}}/g) || []).length; i++)
-    {
+    {     
       gdprText = gdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+      Logger.log((gdprText.match(/{{ESN Section's Name}}/g) || []).length + " {{ESN Section's Name}}/GDPR")
+
+      form.getItemById(gdprItemID).setHelpText(gdprText)
     }
 
     // Sets the final GDPR text in the form. 
@@ -214,16 +216,13 @@ function createNewRecruitmentForm()
     // Form Description Text
     let formDescription = form.getDescription()
 
-    // repeats as many times as "{{Πανεπιστήμιο Σαντορίνης}}" appears in the form description text.
-    for (var i = 0; i < (formDescription.match(/{{Πανεπιστήμιο Σαντορίνης}}/g) || []).length; i++)
+    // repeats as many times as "{{University Name}}" appears in the form description text.
+    for (var i = 0; i < (formDescription.match(/{{University Name}}/g) || []).length; i++)
     {
-      formDescription = formDescription.replace("{{Πανεπιστήμιο Σαντορίνης}}", UNIVERSITY_NAME)
-    }
+      formDescription = formDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+      Logger.log((formDescription.match(/{{University Name}}/g) || []).length + " {{University Name}}/Description")
 
-    // repeats as many times as "{{ESN Section's Name}}" appears in the form description text.
-    for (var i = 0; i < (formDescription.match(/{{ESN Section's Name}}/g) || []).length; i++)
-    {
-      formDescription = formDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+      form.setDescription(formDescription)
     }
     
     // Sets form final description.
@@ -232,5 +231,4 @@ function createNewRecruitmentForm()
     // Form Title Text
     form.setTitle( form.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
   }
-
 

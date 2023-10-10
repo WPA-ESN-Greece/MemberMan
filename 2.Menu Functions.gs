@@ -1,48 +1,55 @@
-
-
 // Custom ESN Menu.
-
 function initMenu()
 {
-  var ui, menu, submenu, submenuJoinForm, submenuMembers, submenuAlumni, submenuSetup
+  var ui, menu, submenu, submenuJoinForm, submenuMembers, submenuAlumni, submenuTeamUpdate
   
   ui = SpreadsheetApp.getUi()
   menu = ui.createMenu("🌌 ESN Menu")
 
-  submenuJoinForm = ui.createMenu("Join Form Operations")
+  submenuJoinForm = ui.createMenu("1️⃣ Join Form Operations")
   //
     submenuJoinForm.addItem("🦸‍♀️ Accepted to Members", "acceptedFromJoinformToMembers")
     submenuJoinForm.addItem("🚮 Delete Rejected Responses", "deleteRejectedRecruits")
 
   menu.addSubMenu(submenuJoinForm)
 
-  
-  submenuMembers = ui.createMenu("Members Operations")
+  submenuTeamUpdate = ui.createMenu("2️⃣ Team Update Form Operations")
   //
-    submenuMembers.addItem("🔰 Create Google Accounts", "bulkCreateGoogleUsers")
+    submenuTeamUpdate.addItem("🔼 Update Members' Info", "updateTeamMembers")
+    submenuTeamUpdate.addItem("🔥 Delete Team Update Updated Responses", "deleteUpdatedResponses")
+
+  menu.addSubMenu(submenuTeamUpdate)
+  
+  submenuMembers = ui.createMenu("3️⃣ Members Operations")
+  //
+    
+    if (adminRoleCheck() === true)
+    {
+      submenuMembers.addItem("🔰 Create Google Accounts", "bulkCreateGoogleUsers")
+    }
     submenuMembers.addItem("🦖 Members to Alumni", "transferDataFromMembersToAlumni")
 
   menu.addSubMenu(submenuMembers)
 
 
-  submenuAlumni = ui.createMenu("Alumni Operations")
+  submenuAlumni = ui.createMenu("4️⃣ Alumni Operations")
   //
     submenuAlumni.addItem("🦕 Alumni to Members", "transferDataFromAlumniToMembers")
-    submenuAlumni.addItem("🚫 Disable Retired Emails", "disableRetiredGoogleAccounts")
+    if (adminRoleCheck() === true)
+    {
+      submenuAlumni.addItem("🚫 Disable Retired Emails", "disableRetiredGoogleAccounts")
+    }
 
   menu.addSubMenu(submenuAlumni)
 
-
-
   menu.addSeparator()
 
-  //menu.addItem("Setup Wizard 🧙‍♂️", "")
   if (IS_JoinForm_Created == false) {menu.addItem("📝 Create Join the Team Form", "createNewRecruitmentForm")}
-  menu.addItem("📝 Create Team Update Form", "createNewTeamUpdateForm")
+  if (IS_TeamUpdateForm_Created == false) {menu.addItem("🎓 Create Team Update Form", "createNewTeamUpdateForm")}
 
   submenu = ui.createMenu("Options")
   //
-    //if (IS_CSV_Link_Generated == false) {submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")}
+
     submenu.addItem("🔗 Generate users.csv download link","generateUsersCSVDownloadLink")
   
   menu.addSubMenu(submenu)
@@ -54,46 +61,116 @@ function initMenu()
   menu.addToUi()
 }
 
-
-
-
-
-
-/*
-function initMenu() 
+function onOpen()
 {
-  var ui = SpreadsheetApp.getUi()
-  var menu = ui.createMenu("🌌 ESN Menu")
+  var ui = SpreadsheetApp.getUi() 
   
-  menu.addItem("📤 Email Credentials to New Users","emailCredentials")
-  menu.addItem("🦸‍♀️ Move Accepted to Members","acceptedToMembers")
-  menu.addItem("🚮 Delete Rejected Responses","deleteRejected")
-
-  menu.addSeparator()
- /*
-  if (settingsSheet.getRange("C15").getValue() === true)
+  if (!(IS_JoinForm_Created == true && IS_TeamUpdateForm_Created == true && IS_Instalable_OnOpenTrigger_Created == true) && IS_Initial_SETUP_DONE == false)
   {
-    menu.addItem("👤 Create Google Users for 'Candidate Member'","addCandidateToGoogleWorkspace")
-    
-    menu.addSeparator()
+    let setupMenu = ui.createMenu("🌌 ESN Menu")
+
+    setupMenu.addItem("Setup Wizard 🧙‍♂️", "initialSetUp")
+
+    setupMenu.addToUi()
   }
-
-  var submenu = ui.createMenu("🔨 Set Up")
-  submenu.addItem("📝 Create New Form","createNewRecruitmentForm")
-  submenu.addItem("✨ Format Form responses","oneClickSetUp")
-  submenu.addItem("🔗 Generate users Sheet Link","generateUsersLink")
-
-  menu.addSubMenu(submenu)
-  
-  menu.addItem("📑 View Documentation","showDocumentation")
-  
-  menu.addToUi()
 }
 
-*/
 
 
+// Set Up this tool for the end user.
+function initialSetUp()
+{
+  var ui = SpreadsheetApp.getUi()
+  
+  // Authorizes the script.
+  authPopUp()
 
+  SpreadsheetApp.flush()
+
+  // Prompts for admin user's email address.
+  var adminEmail = ui.prompt("⚠️ Input the Admin's Email Address of your Section. By admin It's meant the person that has the permission to create Google users in your Google Workspace.").getResponseText()
+  Settings_SHEET.getRange(SECTION_EMAIL_Admin_CELL).setValue(String(adminEmail))
+  toast("","Admin's Email has been set in the Settings.")
+
+  // Gets the active users Organization Unit Path.
+  var orgPath = getUser(Session.getActiveUser().getEmail()).orgUnitPath
+  Settings_SHEET.getRange(SECTION_GOOGLE_Organization_Unit_Path_CELL).setValue(String(orgPath))
+  toast("","Organization Unit Path has been set in the Settings.")
+
+  // Gets the Section's Domain.
+  var sectionDomain = adminEmail.split("@")[1]
+  Settings_SHEET.getRange(SECTION_EMAIL_DOMAIN_CELL).setValue(String(sectionDomain))
+  toast("","Section's Domain has been set in the Settings.")
+
+  // Prompts user for creating Google Users directly.
+  var createUsers = ui.alert("⚠️ Would you like to create Google Users (ESN Email) directly to new members?", ui.ButtonSet.YES_NO)
+  if (createUsers === ui.Button.YES)
+  {
+    Settings_SHEET.getRange(IS_Add_UsersToGoogleWorkplace_Active_CELL).setValue(true)
+    toast("","Creating Google Users preference has been set in the Settings.")
+  }
+  else {}
+
+  // Prompts user for adding new members to a members Google Group. 
+  var membersGroupResponse = ui.alert("⚠️ Would you like to add new members to a Google Group just for members? (Only personal ESN emails)", ui.ButtonSet.YES_NO)
+  if (membersGroupResponse === ui.Button.YES)
+  {
+    Settings_SHEET.getRange(IS_Members_Google_Group_Active_CELL).setValue(true)
+    toast("","Adding Members to Group preference has been set in the Settings.")
+
+    var  membersGroupAddress = ui.prompt("Type the Google Group Email Address for the members. Make sure it exist and you are owner or manager of it. Example of the email address: members@mit.esngreece.gr").getResponseText()
+
+    Settings_SHEET.getRange(Members_Google_Group_CELL).setValue(membersGroupAddress)
+    toast("","Members Group Email has been set in the Settings.")
+  }
+  else {}
+
+  // Prompts user for adding alumni to a alumni Google Group. 
+  var alumniGroupResponse = ui.alert("⚠️ Would you like to add alumni members to a Google Group just for alumni members? (Only personal ESN emails)", ui.ButtonSet.YES_NO)
+  if (alumniGroupResponse === ui.Button.YES)
+  {
+    Settings_SHEET.getRange(IS_Alumni_Google_Group_Active_CELL).setValue(true) 
+    toast("","Adding Alumni Members to Group preference has been set in the Settings.")
+
+    var  alumniGroupAddress = ui.prompt("Type the Google Group Email Address for the alumni members. Make sure it exist and you are owner or manager of it. Example of the email address: alumni@mit.esngreece.gr").getResponseText()
+
+    Settings_SHEET.getRange(Alumni_Google_Group_CELL).setValue(alumniGroupAddress) 
+    toast("","Alumni Members Group Email has been set in the Settings.")
+  }
+  else {}
+
+  // Prompts user for ESN Section's Full Legal Name.
+  var  sectionFullName = ui.prompt("⚠️ Type your Section's Full Name as it appears in your Legal Documents. Example: Erasmus Student Network of University of Mykonos (Probably in your mother language)").getResponseText()
+  Settings_SHEET.getRange(SECTION_FULL_NAME_CELL).setValue(sectionFullName)
+  toast("","Section's Full Name has been set in the Settings.")
+
+  // Prompts user for ESN Section's Short Name.
+  var  sectionShortName = ui.prompt("⚠️ Type your Section's Short Name. Example: ESN Mykonos").getResponseText()
+  Settings_SHEET.getRange(SECTION_SHORT_NAME_CELL).setValue(sectionShortName)
+  toast("","Section's Short Name has been set in the Settings.")
+
+  // Prompts user for ESN Section's University Name.
+  var  sectionUniName = ui.prompt("⚠️ Type your Section's University Name. Example: Technical University of Mykonos (Probably in your mother language)").getResponseText()
+  Settings_SHEET.getRange(UNIVERSITY_NAME_CELL).setValue(sectionUniName)
+  toast("","Section's University Name has been set in the Settings.")
+
+  // Creates Join The Team Form.
+  createNewRecruitmentForm()
+
+  // Creates Team Update Form.
+  createNewTeamUpdateForm()
+
+  // Generates a URL to download user.CSV file. 
+  generateUsersCSVDownloadLink()
+  toast("","users.CSV URL Generated")
+
+  // Creates a trigger to automatically open the custom menu.
+  setOnOpenTrigger()
+  toast("","Trigger for 🌌 ESN Menu set")
+
+  SpreadsheetApp.flush()
+  toast("Your MemberMan instance is ready for use!","🎉 MemberMan is Ready 🦸‍♂️")
+}
 
 
 //Documentation Link pop-up

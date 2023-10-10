@@ -4,9 +4,12 @@
 
 
 // Automatically runs when the spreadsheet is opened.
-function onOpen(e)
+function onOpenInstalled()
 {
-  initMenu()
+  if (IS_Initial_SETUP_DONE == true)
+  {
+    initMenu()
+  }
 }
 
 // Triggers when the linked form gets a new sybmition.
@@ -59,7 +62,7 @@ function authPopUp()
   }
   else if ( authStatus === ScriptApp.AuthorizationStatus.NOT_REQUIRED)
   {
-    ui.alert("Your form is all set.", ui.ButtonSet.OK)
+    
   }
 }
 
