@@ -7,7 +7,7 @@
 
 
 // Documentation Doc URL.
-const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1uCqoSNN5fHieTUz-2lBLeBr2hMXIyG_3NlG9rC10zhM/edit?usp=sharing'
+const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1R2cZvqcRfiUotPKPY1AqkcPNrbVgspoYfZt6EgRWq30/edit?usp=sharing'
 
 // Bug Report From.
 const BUG_REPORT_FORM_URL = 'https://forms.gle/uSLYYNdvkGCZUjo58'
@@ -16,12 +16,12 @@ const BUG_REPORT_FORM_URL = 'https://forms.gle/uSLYYNdvkGCZUjo58'
 // Join Form's URL.
   const JOIN_FORM_TEMPLATE_URL = "https://docs.google.com/forms/d/1Jqxas_rvNLNRzC70XFeWH2kIRrySNHuZn6uURt3c3mo/edit"
   const JOIN_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(JOIN_FORM_TEMPLATE_URL)
-  const JOIN_FORM_NAME = "✨ Join the Team - Application Form | MemberMan"
+  const JOIN_FORM_NAME = "🦸‍♀️ Join the Team - Application Form | MemberMan"
 
 // Team Update Form
   const TEAM_UPDATE_FORM_TEMPLATE_URL = "https://docs.google.com/forms/d/1vts9Xe5AXn5DvN8YnV_XLkc5YNnlft5NDgDHiZR5v8g/edit"
   const TEAM_UPDATE_FORM_TEMPLATE_ID = extractDocumentIdFromUrl(TEAM_UPDATE_FORM_TEMPLATE_URL)
-  const TEAM_UPDATE_FORM_NAME = "✨ Team Update Form | MemberMan"
+  const TEAM_UPDATE_FORM_NAME = "🦸‍♂️ Team Update Form | MemberMan"
 
 
 

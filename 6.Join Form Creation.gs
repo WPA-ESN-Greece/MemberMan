@@ -37,7 +37,39 @@ function createNewRecruitmentForm()
   createAgeColumn()
   formatColumnHeaders(Join_Form_Responses_SHEET)
   setTrigerForRegisteredStatus()
-  replacePlaceholderTextInForm(newJoinTheTeamFormID)
+
+  SpreadsheetApp.flush()
+
+  // Replaces Placeholder texts based on given Section's info in the new Join the Team Form.
+    var joinForm = FormApp.openById(newJoinTheTeamFormID)
+
+    // Join Form Title Text. 
+    joinForm.setTitle( joinForm.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
+
+    // Form Description Text
+    let joinFormDescription = joinForm.getDescription()
+
+    // Does the text replacements.
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+    joinFormDescription = joinFormDescription.replace("{{University Name}}", UNIVERSITY_NAME)
+    
+    // Sets form final description.
+    joinForm.setDescription(joinFormDescription)
+
+    // GDPR Text
+    var items = joinForm.getItems()
+    let gdprItemID = items[items.length - 1].getId()
+    let joinFormgdprText = joinForm.getItemById(gdprItemID).getHelpText()
+
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    joinFormgdprText = joinFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+
+    // Sets form final gdpr text.
+    joinForm.getItemById(gdprItemID).setHelpText(joinFormgdprText)
+
+  
   toast("","Join The Team Form has been customized for your Section")
 
   // Sets a Query formula at "Query_Formula_Column_Members" cell in Members sheet to automatically get the form questions from the Join Form sheet.

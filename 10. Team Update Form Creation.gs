@@ -28,7 +28,37 @@ function createNewTeamUpdateForm()
   deleteMostBlankRows(Team_Update_Form_SHEET)
   deleteBlankColumns(Team_Update_Form_SHEET)
   formatColumnHeaders(Team_Update_Form_SHEET)
-  replacePlaceholderTextInForm(newUpdateTeamFormID)
+  //replacePlaceholderTextInForm(newUpdateTeamFormID)
+
+  // Replaces Placeholder texts based on given Section's info in the new Team Update Form.
+    var updateForm = FormApp.openById(newupdateTheTeamFormID)
+
+    // update Form Title Text. 
+    updateForm.setTitle( updateForm.getTitle().replace("{{ESN Section's Name}}", SECTION_SHORT_NAME))
+
+    // Form Description Text
+    let updateFormDescription = updateForm.getDescription()
+
+    // Does the text replacements.
+    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    updateFormDescription = updateFormDescription.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    
+    // Sets form final description.
+    updateForm.setDescription(updateFormDescription)
+
+    // GDPR Text
+    var items = updateForm.getItems()
+    let gdprItemID = items[items.length - 1].getId()
+    let updateFormgdprText = updateForm.getItemById(gdprItemID).getHelpText()
+
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Full Name}}", SECTION_FULL_NAME)
+
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+    updateFormgdprText = updateFormgdprText.replace("{{ESN Section's Name}}", SECTION_SHORT_NAME)
+
+    // Sets form final gdpr text.
+    updateForm.getItemById(gdprItemID).setHelpText(updateFormgdprText)
+
   toast("","Team Update Form has been customized for your Section")
 
   // Creates a first column with "Update Status" as a name. 

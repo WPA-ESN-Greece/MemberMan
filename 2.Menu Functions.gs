@@ -91,17 +91,18 @@ function initialSetUp()
   // Prompts for admin user's email address.
   var adminEmail = ui.prompt("⚠️ Input the Admin's Email Address of your Section. By admin It's meant the person that has the permission to create Google users in your Google Workspace.").getResponseText()
   Settings_SHEET.getRange(SECTION_EMAIL_Admin_CELL).setValue(String(adminEmail))
-  toast("","Admin's Email has been set in the Settings.")
 
   // Gets the active users Organization Unit Path.
   var orgPath = getUser(Session.getActiveUser().getEmail()).orgUnitPath
   Settings_SHEET.getRange(SECTION_GOOGLE_Organization_Unit_Path_CELL).setValue(String(orgPath))
-  toast("","Organization Unit Path has been set in the Settings.")
 
   // Gets the Section's Domain.
   var sectionDomain = adminEmail.split("@")[1]
   Settings_SHEET.getRange(SECTION_EMAIL_DOMAIN_CELL).setValue(String(sectionDomain))
-  toast("","Section's Domain has been set in the Settings.")
+  toast(`Admin's Email has been set in the Settings.
+  Organization Unit Path has been set in the Settings.
+  Section's Domain has been set in the Settings.
+  `,"Section's Info has been set in the Settings.")
 
   // Prompts user for creating Google Users directly.
   var createUsers = ui.alert("⚠️ Would you like to create Google Users (ESN Email) directly to new members?", ui.ButtonSet.YES_NO)
@@ -158,15 +159,19 @@ function initialSetUp()
   SpreadsheetApp.flush();
 
   // Creates Join The Team Form.
-  createNewRecruitmentForm()
+  toast("","Creating Join the team Form...")
+  createNewRecruitmentForm() 
 
   // Creates Team Update Form.
+  toast("","Creating Team Update Form...")
   createNewTeamUpdateForm()
 
   // Generates a URL to download user.CSV file. 
   generateUsersCSVDownloadLink()
+  toast("","Removing the bad attitude...")
 
   // Creates a trigger to automatically open the custom menu.
+  toast("","🕷️ Adding bugs to fix later...")
   setOnOpenTrigger()
 
   Settings_SHEET.getRange(IS_Initial_SETUP_DONE_CELL).setValue("TRUE")
