@@ -54,7 +54,7 @@ function acceptedFromJoinformToMembers()
       setValueToRange(Members_SHEET, "A2", [CREATE_GOOGLE_ACCOUNT])
 
       // Sets Recruitment Status to Accepted & Transferred.
-      setValueToRange(Join_Form_Responses_SHEET, Join_Form_Responses_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [ACCEPTED_TRANSFERRED]) 
+      setValueToRange(Join_Form_Responses_SHEET, Join_Form_Responses_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [TRANSFERRED]) 
     }
   })
     

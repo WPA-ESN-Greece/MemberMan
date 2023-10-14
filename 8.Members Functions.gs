@@ -121,12 +121,6 @@ function bulkCreateGoogleUsers()
   const Domain_PLACEHOLDER = "[section].esngreece.gr"
   var ui = SpreadsheetApp.getUi()
   
-  if (SECTION_EMAIL_Admin === Google_Workspace_Admin_User_PLACEHOLDER) 
-  {
-    Logger.log("You havent set a Section Admin email in the Settings sheet.")
-    return
-  }
-
   if 
   (
     SECTION_GOOGLE_Organization_Unit_Path == Organization_Unit_Path_PLACEHOLDER || 

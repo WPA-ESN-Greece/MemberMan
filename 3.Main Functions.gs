@@ -60,5 +60,9 @@ function authPopUp()
     ui.showModalDialog(message,"Authentication")
 
   }
+  else if ( authStatus === ScriptApp.AuthorizationStatus.NOT_REQUIRED)
+  {
+    
+  }
 }
 

@@ -170,8 +170,8 @@ const CSV_LINK_CELL = "E20"
   const REJECTED_CELL = "G8"
   let REJECTED = Settings_SHEET.getRange(REJECTED_CELL).getValue()
 
-  const ACCEPTED_TRANSFERRED_CELL = "G20"
-  let ACCEPTED_TRANSFERRED = Settings_SHEET.getRange(ACCEPTED_TRANSFERRED_CELL).getValue()
+  const TRANSFERRED_CELL = "G20"
+  let TRANSFERRED = Settings_SHEET.getRange(TRANSFERRED_CELL).getValue()
 
 
 

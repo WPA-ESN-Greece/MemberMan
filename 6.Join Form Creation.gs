@@ -127,15 +127,8 @@ function createNewRecruitmentForm(_SECTION_SHORT_NAME, _UNIVERSITY_NAME, _SECTIO
   {
     //Sets Conditional formating rules
     var lastColumn = Join_Form_Responses_SHEET.getLastColumn()
-    var lastRow = Join_Form_Responses_SHEET.getLastRow()
+    var lastRow = Join_Form_Responses_SHEET.getMaxRows()
     let conditionaFormatRange = Join_Form_Responses_SHEET.getRange(1, 1, lastRow, lastColumn)
-
-    let formatRule0 = SpreadsheetApp.newConditionalFormatRule()
-        .whenFormulaSatisfied("=$"+`A1=INDIRECT("Settings!${CANDIDATE_MEMBER_CELL}")`) //Candidate Member
-        .setBackground("#d9d2e9")
-        .setFontColor("#351c75")
-        .setRanges([conditionaFormatRange])
-        .build()
 
     let formatRule1 = SpreadsheetApp.newConditionalFormatRule()
         .whenFormulaSatisfied("=$"+`A1=INDIRECT("Settings!${CONTACTED_CELL}")`) //Contacted
@@ -167,15 +160,22 @@ function createNewRecruitmentForm(_SECTION_SHORT_NAME, _UNIVERSITY_NAME, _SECTIO
         .build()
 
     let formatRule5 = SpreadsheetApp.newConditionalFormatRule()
-      .whenFormulaSatisfied('=$'+`A1=INDIRECT("Settings!${ACCEPTED_TRANSFERRED_CELL}")`) //Accepted & Transferred
+      .whenFormulaSatisfied('=$'+`A1=INDIRECT("Settings!${TRANSFERRED_CELL}")`) //Accepted & Transferred
       .setBackground("#d9ead3")
       .setFontColor("#38761d")
       .setItalic(true)
       .setRanges([conditionaFormatRange])
       .build()
 
+    let formatRule6 = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=$"+`A1=INDIRECT("Settings!${CANDIDATE_MEMBER_CELL}")`) //Candidate Member
+    .setBackground("#d9d2e9")
+    .setFontColor("#351c75")
+    .setRanges([conditionaFormatRange])
+    .build()
+
     let conditionalFormatRules = Join_Form_Responses_SHEET.getConditionalFormatRules()
-    conditionalFormatRules.push(formatRule0, formatRule1, formatRule2, formatRule3, formatRule4, formatRule5)
+    conditionalFormatRules.push(formatRule1, formatRule2, formatRule3, formatRule4, formatRule5, formatRule6)
     Join_Form_Responses_SHEET.setConditionalFormatRules(conditionalFormatRules)
 
     Join_Form_Responses_SHEET.getRange(Recruitment_Status_Dropdown_Options_RANGE).setHorizontalAlignment("left")
