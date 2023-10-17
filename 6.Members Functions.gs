@@ -1,8 +1,11 @@
-/**=========================================================================================================================================================================
- *  
- * Members - Alumni Sheets Functions.
- * =========================================================================================================================================================================
- */
+/*
+/
+/ Members - Alumni Sheets Functions.
+/
+/
+/
+*/
+
 
 // Transffers members data between two sheets with the same structure. (Members and Alumni in this case).
 function transferDataFromMembersToAlumni()

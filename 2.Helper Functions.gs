@@ -1,9 +1,10 @@
-/**=========================================================================================================================================================================
- *  
- * Helper Functions
- * 
- *=========================================================================================================================================================================
- */
+/*
+/  
+/ Helper Functions
+/
+/ This file contains functions used in within main functions or sheet specific functions. You can find sheet specifi functions in different .gs files with a name to match the target sheet. 
+/
+*/
 
 
 

@@ -1,10 +1,10 @@
-/**=========================================================================================================================================================================
- *  
- * Config File
- * 
- * =========================================================================================================================================================================
- */
-
+/*
+/
+/ Config File
+/
+/ This file contains most of the constants for this code for easy changes and customization. 
+/ 
+*/
 
 // Documentation Doc URL.
 const DOCUMENTATION_LINK = 'https://docs.google.com/document/d/1R2cZvqcRfiUotPKPY1AqkcPNrbVgspoYfZt6EgRWq30/edit?usp=sharing'

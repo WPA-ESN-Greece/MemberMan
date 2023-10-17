@@ -1,9 +1,14 @@
+/*
+/
+/
+/
+/
+/
+*/
+
 /**
- * @OnlyCurrentDoc
+ * Automatically runs when the spreadsheet is opened.
  */
-
-
-// Automatically runs when the spreadsheet is opened.
 function onOpenInstalled()
 {
   if (IS_Initial_SETUP_DONE == true)
@@ -12,7 +17,10 @@ function onOpenInstalled()
   }
 }
 
-// Triggers when the linked form gets a new sybmition.
+
+/**
+ * Triggers when the linked form gets a new submition.
+ */
 function onFormSubmit(e)
 {
   registerdStatus(e)
@@ -25,7 +33,10 @@ function onEdit(e)
   //transferBetweenMembers_Alumni(e)
 }*/
 
-// Generates the 'users' sheet link in the Settings
+/**
+ *  Generates the 'users.csv' sheet link in the Settings. 
+ * 
+*/
 function generateUsersCSVDownloadLink()
 {
   // Download data.csv file url template.
@@ -42,7 +53,11 @@ function generateUsersCSVDownloadLink()
 }
 
 
-//Authentication Window
+/**
+ * Authentication Window
+ * 
+ * 
+ */
 function authPopUp()
 {
   var ui = SpreadsheetApp.getUi()

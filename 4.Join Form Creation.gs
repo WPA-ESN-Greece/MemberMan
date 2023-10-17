@@ -1,8 +1,10 @@
-/*****************************************************************************************************************************
- * 
- * Creates and formats "Join the Team" form.
- * 
- ****************************************************************************************************************************/
+/*
+/
+/ Creates and formats "Join the Team" form.
+/
+/
+/
+*/
 
 // Creates a new form from an existing file 
 function createNewRecruitmentForm(_SECTION_SHORT_NAME, _UNIVERSITY_NAME, _SECTION_FULL_NAME) 

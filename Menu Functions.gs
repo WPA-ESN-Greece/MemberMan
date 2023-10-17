@@ -1,3 +1,12 @@
+/*
+/
+/ Menu functions.
+/
+/ In this file you will find functions that build the ESN Menu and the menu specific functions like the showDocumentation function. 
+/ It also includes a simple onOpen function for the first time setup menu. The initMenu function requires the authorization of scopes and needs an instalable onOpen Triger to run with out errors.
+/
+*/
+
 // Custom ESN Menu.
 function initMenu()
 {

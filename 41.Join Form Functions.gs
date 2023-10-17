@@ -1,12 +1,10 @@
-
-
-/*****************************************************************************************************************************
- * 
- * Accepted to Members Function.
- * 
- * @see https://www.youtube.com/watch?v=ShcdwNh7wD0 how the appending a row works
- * 
- ****************************************************************************************************************************/
+/*
+/
+/ Accepted to Members Function.
+/
+/ @see https://www.youtube.com/watch?v=ShcdwNh7wD0 how the appending a row works
+/
+*/
 
 
 function acceptedFromJoinformToMembers() 
