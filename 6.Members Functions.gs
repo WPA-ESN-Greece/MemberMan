@@ -1,6 +1,6 @@
 /*
 /
-/ Members - Alumni Sheets Functions.
+/ Members Sheets Functions.
 /
 /
 /
@@ -30,7 +30,6 @@ function transferDataFromMembersToAlumni()
 
       appendRowFromTop(Alumni_SHEET, targetRow[0].length, startRow)
       setValueToRange(Alumni_SHEET, Alumni_SHEET.getRange(startRow, 1, 1, Alumni_SHEET.getLastColumn()).getA1Notation(), targetRow[0])
-      //Members_SHEET.deleteRow(index + startRow)
 
       if (row[14].length === 0)
       {
@@ -43,10 +42,15 @@ function transferDataFromMembersToAlumni()
       setValueToRange(Alumni_SHEET, Became_Alumni_Date_CELL, [outPutDates])
       }
 
-      removeUserFromGoogleGroup(row[1], Members_Google_Group)
+      if (IS_Add_UsersToGoogleWorkplace_Active == true)
+      {
+        //row[1] is the user's email address.
+        removeUserFromGoogleGroup(row[1], Members_Google_Group)
+      }
 
       if (IS_Alumni_Google_Group_Active == true)
       {
+        //row[1] is the user's email address.
         addUserToGoogleGroup(row[1], Alumni_Google_Group)
       }
     }
@@ -137,49 +141,47 @@ function bulkCreateGoogleUsers()
   }
   else
   {
-    
-      var lastRow = Members_SHEET.getLastRow() 
-      var lastColumn = Members_SHEET.getLastColumn()
-      var membersData = Members_SHEET.getRange(2,1,lastRow,lastColumn).getValues()
+    var lastRow = Members_SHEET.getLastRow() 
+    var lastColumn = Members_SHEET.getLastColumn()
+    var membersData = Members_SHEET.getRange(2,1,lastRow,lastColumn).getValues()
 
-      membersData.forEach(function(row, index)
+    membersData.forEach(function(row, index)
+    {
+      if (row[0] === CREATE_GOOGLE_ACCOUNT)
       {
-        if (row[0] === CREATE_GOOGLE_ACCOUNT)
+        // User data.
+        var userEmail = row[1]
+        var userFirstname = row[2]
+        var userLastname = row[3]
+        var userPassword = row[2] + "@esn"
+        var userRecoveryEmail = row[6]
+        var userPhoneNumber = row[7]
+        
+        try
         {
-          // User data.
-          var userEmail = row[1]
-          var userFirstname = row[2]
-          var userLastname = row[3]
-          var userPassword = row[2] + "@esn"
-          var userRecoveryEmail = row[6]
-          var userPhoneNumber = row[7]
-          
-          try
-          {
-            // Creating the new user.
-            insertNewGoogleUser(SECTION_SHORT_NAME, userEmail, userPassword, userFirstname, userLastname, userRecoveryEmail, userPhoneNumber, SECTION_GOOGLE_Organization_Unit_Path)
-          }
-          catch(err)
-          {
-            ui.alert(err.message, ui.ButtonSet.OK)
-            Logger.log('Failed with error %s', err.message)
-          }
-
-          // Email the Login Credentials to the recovery email address of members.
-          emailCredentialsToNewUsers(userEmail, userPassword, userRecoveryEmail)
-
-          
-          if (IS_Members_Google_Group_Active == true)
-          {
-            addUserToGoogleGroup(userEmail, Members_Google_Group)
-          }
-
-          // Sets Membe Status to "Newbie"
-          setValueToRange(Members_SHEET, Members_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [NEWBIE])
+          // Creating the new user.
+          insertNewGoogleUser(SECTION_SHORT_NAME, userEmail, userPassword, userFirstname, userLastname, userRecoveryEmail, userPhoneNumber, SECTION_GOOGLE_Organization_Unit_Path)
         }
-      })
+        catch(err)
+        {
+          ui.alert(err.message, ui.ButtonSet.OK)
+          Logger.log('Failed with error %s', err.message)
+        }
+
+        // Email the Login Credentials to the recovery email address of members.
+        emailCredentialsToNewUsers(userEmail, userPassword, userRecoveryEmail)
+
+        
+        if (IS_Members_Google_Group_Active == true)
+        {
+          addUserToGoogleGroup(userEmail, Members_Google_Group)
+        }
+
+        // Sets Membe Status to "Newbie"
+        setValueToRange(Members_SHEET, Members_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [NEWBIE])
+      }
+    })
   }
-    
     
 }
 
@@ -194,7 +196,6 @@ function emailCredentialsToNewUsers(primaryEmail, password, recoveryEmail)
   htmlTemplate.esnMailPassword = password
 
   var message = htmlTemplate.evaluate().getContent()
-
   
   /*
   var message = 
@@ -204,8 +205,6 @@ function emailCredentialsToNewUsers(primaryEmail, password, recoveryEmail)
     `<p><i>After the first sign in to your new Google Account, you will be asked to change the password above with one only you will know.
      You can sign in <a href="shorturl.at/erBX3">here</a>.</i></p>`*/
 
-
-  
   MailApp.sendEmail(
     {
       to: recoveryEmail,
@@ -218,3 +217,24 @@ toast("Now the new ESNers can log in to Google.","🎉 Emails sent")
 }
 
 
+function manuallyEmailUsersCredentials()
+{
+  var startRow = 2
+  var statusToCheck = CREATE_GOOGLE_ACCOUNT
+  var lastRow = Members_SHEET.getLastRow()
+  var lastColumn = Members_SHEET.getLastColumn()
+  var membersData = Members_SHEET.getRange(startRow,1,lastRow,lastColumn).getValues()
+
+  membersData.forEach(function(row, index) 
+  {
+    // row[2] = First Name, row[3] = Lastnamw, row[6] = Contact Email, row[11] = Became Member Date, row[12] = ESN Account Link
+    if(row[0] === statusToCheck && row[2] != '' && row[3] != '' && row[6] != '' && row[1] != '')
+    {
+      // Email the Login Credentials to the recovery email address of members.
+      emailCredentialsToNewUsers(row[1], (row[2] + "@esn"), row[6]) 
+
+      // Sets Membe Status to "Newbie"
+      setValueToRange(Members_SHEET, Members_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [NEWBIE])
+    }
+  })
+}

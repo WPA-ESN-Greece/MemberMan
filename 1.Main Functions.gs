@@ -1,6 +1,6 @@
 /*
 /
-/
+/ This File contain some key functions (and some that don't have any other place to go).
 /
 /
 /

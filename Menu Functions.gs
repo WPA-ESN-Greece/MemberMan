@@ -35,6 +35,7 @@ function initMenu()
     if (adminRoleCheck() === true)
     {
       submenuMembers.addItem("🔰 Create Google Accounts", "bulkCreateGoogleUsers")
+      submenuMembers.addItem("📤 Manually Email Credentials to Users", "manuallyEmailUsersCredentials")
     }
     submenuMembers.addItem("🦖 Members to Alumni", "transferDataFromMembersToAlumni")
 

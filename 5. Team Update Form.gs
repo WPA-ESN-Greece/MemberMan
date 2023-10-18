@@ -1,6 +1,6 @@
 /*
 /
-/
+/ Team Update.
 /
 /
 /
@@ -86,7 +86,7 @@ function updateTeamMembers()
   var lastColumn = Team_Update_Form_SHEET.getLastColumn()
   var range = Team_Update_Form_SHEET.getRange(2,1,lastRow,lastColumn).getValues()
 
-  let MembersEmailAddresses = Members_SHEET.getRange(2,2, Members_SHEET.getLastRow() - 2, 1).getValues()//.join().split()
+  let MembersEmailAddresses = Members_SHEET.getRange(2,2, Members_SHEET.getLastRow() - 2, 1).getValues()
 
   range.forEach(function(row, index)
   {

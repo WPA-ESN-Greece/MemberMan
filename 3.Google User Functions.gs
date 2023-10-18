@@ -1,6 +1,6 @@
 /*
 /
-/
+/ This file contains functions for the creation and manipulation of Google users.
 /
 /
 /

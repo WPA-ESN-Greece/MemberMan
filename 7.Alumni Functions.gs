@@ -1,6 +1,6 @@
 /*
 /
-/
+/ Alumni Sheets Functions.
 /
 /
 /
@@ -29,7 +29,6 @@ function transferDataFromAlumniToMembers()
 
       appendRowFromTop(Members_SHEET, targetRow[0].length, startRow)
       setValueToRange(Members_SHEET, Members_SHEET.getRange(startRow, 1, 1, Members_SHEET.getLastColumn()).getA1Notation(), targetRow[0])
-      //Alumni_SHEET.deleteRow(index + startRow)
 
       if (row[14].length === 0)
       {
@@ -41,12 +40,17 @@ function transferDataFromAlumniToMembers()
       var outPutDates = String(Utilities.formatDate(new Date(), TIMEZONE, "dd/MM/yyyy")) + ", " + alumniDate
       setValueToRange(Members_SHEET, Became_Alumni_Date_CELL, [outPutDates])
       }
-      
-      addUserToGoogleGroup(row[1], Members_Google_Group)
 
       if (IS_Alumni_Google_Group_Active == true)
       {
+        //row[1] is the user's email address.
         removeUserFromGoogleGroup(row[1], Alumni_Google_Group)
+      }
+
+      if (IS_Add_UsersToGoogleWorkplace_Active == true)
+      {
+        //row[1] is the user's email address.
+        addUserToGoogleGroup(row[1], Members_Google_Group)
       }
     }
   })
@@ -92,28 +96,4 @@ function disableRetiredGoogleAccounts()
       setValueToRange(Alumni_SHEET, Alumni_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [RETIRED_Disabled]) 
     }
   })
-
-
 }
-
-/*
-function transferMembersToAlumni()
-{
-  transferDataFromSheetToSheet(Members_SHEET, Alumni_SHEET, ALUMNI, 2)
-
-  var lastRow = Alumni_SHEET.getLastRow()
-  var lastColumn = Alumni_SHEET.getLastColumn()
-  var alumniData = Alumni_SHEET.getRange(2,1,lastRow,lastColumn).getValues()
-
-  alumniData.forEach(function(row, index)
-  {
-
-  })
-}
-*/
-/*
-function transferAlumniToMembers()
-{
-  transferDataFromSheetToSheet(Alumni_SHEET, Members_SHEET, ACTIVE_AGAIN, 2)
-}
-*/
