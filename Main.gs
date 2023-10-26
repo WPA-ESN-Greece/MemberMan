@@ -20,7 +20,7 @@ function onFormSubmit(e)
   
   // If all questions are required, getItemResponses returns responses in form-order
   let itemResponses = responses.getItemResponses()
-  let email = itemResponses[2].getResponse() // returns a string
+  let email = itemResponses[4].getResponse() // returns a string
   
   Logger.log(email)
 
