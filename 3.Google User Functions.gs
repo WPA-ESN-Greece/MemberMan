@@ -1,51 +1,42 @@
-/**
- * Represents a Google User with various attributes.
- */
-class GoogleUser
+/*
+/
+/ This file contains functions for the creation and manipulation of Google users.
+/
+/
+/
+*/
+
+function insertNewGoogleUser(_esnSection, _primaryEmail, _password, _firstName, _lastName, _recoveryEmail, _phone, _orgUnitPath) 
 {
-  /**
-   * Creates a new instance of GoogleUser.
-   *
-   * @param {string} _esnSection - The ESN section associated with the user.
-   * @param {string} _primaryEmail - The primary email address of the user.
-   * @param {string} _password - The password for the user.
-   * @param {string} _firstName - The first name of the user.
-   * @param {string} _lastName - The last name of the user.
-   * @param {string} _recoveryEmail - The recovery email address of the user.
-   * @param {string} _phone - The phone number of the user in E.164 format.
-   * @param {string} _orgUnitPath - The organization unit path associated with the user.
-   * 
-   * @see https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User
-   */
-  constructor (_esnSection, _primaryEmail, _password, _firstName, _lastName, _recoveryEmail, _phone, _orgUnitPath)
+  let GoogleUserOBJ =
   {
     //"id": string,
-    this.primaryEmail = String(_primaryEmail)
-    this.password = String(_password)
+    primaryEmail: String(_primaryEmail),
+    password: String(_password),
     //hashFunction: "MD5",
     //"isAdmin": boolean,
     //"isDelegatedAdmin": boolean,
     //"agreedToTerms": boolean,
-    this.suspended = false
-    this.changePasswordAtNextLogin = true
+    suspended:false,
+    changePasswordAtNextLogin: true,
     //"ipWhitelisted": boolean,
     name: {
-    this.fullName = String(_firstName) + " " + String(_lastName) 
-    this.familyName = String(_lastName) 
-    this.givenName = String(_firstName)
-    this.displayName = String(_firstName) + " " + String(_lastName) + " - " + String(_esnSection)
-    }
+     fullName: String(_firstName) + " " + String(_lastName),
+     familyName: String(_lastName),
+     givenName: String(_firstName),
+     displayName: String(_firstName) + " " + String(_lastName) + " - " + String(_esnSection)
+    },
     //"kind": string,
     //"etag": string,
-    this.emails = [
-      {
-        type: "home",
-        address: String(_recoveryEmail)
-      },
-      {
-        primary: true,
-        address: String(_primaryEmail)
-      }]
+    emails: [
+    {
+      type: "home",
+      address: String(_recoveryEmail)
+    },
+    {
+      primary: true,
+      address: String(_primaryEmail)
+    }],
     //"externalIds": value,
     //"relations": value,
     //"aliases": [string],
@@ -54,24 +45,25 @@ class GoogleUser
     //"addresses": value,
     //"organizations": value,
     //"lastLoginTime": string,
-    this.phones = [
-      {
-        type: "mobile",
-        value: String(_phone)
-      },
-    ]
+    phones: [
+    {
+      type: "mobile",
+      value: String(_phone)
+    },
+    ],
     //"suspensionReason": string,
     //"thumbnailPhotoUrl": string,
-    this.languages = [
-      {
-        languageCode: "en-GB",
-        preference: "preferred"
-      },
-      {
-        languageCode: "el",
-        preference: "preferred"
-      }
-    ] //English (UK) and Greek 
+    languages: [
+    {
+      languageCode: "en-GB",
+      preference: "preferred"
+    },
+    {
+      languageCode: "el",
+      preference: "preferred"
+    }
+    ], 
+    //English (UK) and Greek 
     //"posixAccounts": value,
     //"creationTime": string,
     //"nonEditableAliases": [string],
@@ -85,34 +77,31 @@ class GoogleUser
         value: string
       }],*/
     //"deletionTime": string,
-    this.gender = {
+    gender: {
       type: "other",
       customGender: "ESNer"
-    }
+    },
     //"thumbnailPhotoEtag": string,
     //"ims": value,
     //"customSchemas": value,
-    this.isEnrolledIn2Sv = true
-    this.isEnforcedIn2Sv = true
+    isEnrolledIn2Sv: true,
+    isEnforcedIn2Sv: true,
     //"archived": boolean,
-    this.orgUnitPath = String(_orgUnitPath) //The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (/).
-    this.recoveryEmail = String(_recoveryEmail)
-    this.recoveryPhone = String(_phone) //Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: +16506661212
+    orgUnitPath: String(_orgUnitPath), //The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (/).
+    recoveryEmail: String(_recoveryEmail),
+    recoveryPhone: String(_phone) //Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: +16506661212
   }
 
-    createGoogleUser()
-    {
-      try 
-      {
-        user = AdminDirectory.Users.insert(this)
-        Logger.log('User %s created with ID %s.', user.primaryEmail, user.id)
-      } 
-      catch (err) 
-      {
-        Logger.log('Failed with error %s', err.message)
-      }
-    }
+  try {
+    user = AdminDirectory.Users.insert(GoogleUserOBJ);
+    console.log('User %s created with ID %s.', user.primaryEmail, user.id);
+  } catch (err) {
+    // TODO (developer)- Handle exception from the API
+    console.log('Failed with error %s', err.message);
+  }
 }
+
+
 
 
 /**
@@ -124,24 +113,46 @@ class GoogleUser
  */
 function addUserToGoogleGroup(primaryEmail, groupEmailAddress)
 { 
-  try 
-  {
-    if (!checkGroupMembership(primaryEmail, groupEmailAddress)) //If the user's email IS NOT a member of the group.
+  if (!checkGroupMembership(primaryEmail, groupEmailAddress)) //If the user's email IS NOT a member of the group.
+  {   
+    let memberOBJ =
     {
-        AdminDirectory.Members.insert(primaryEmail, groupEmailAddress)
+      kind: "admin#directory#member",
+      email: String(primaryEmail),
+      role: "MEMBER",
+      //"etag": string,
+      type: "USER",
+      //"status": string,
+      delivery_settings: "ALL_MAIL"
+      //"id": string
+    }
+    try 
+    {
+      AdminDirectory.Members.insert(memberOBJ, groupEmailAddress)
       console.log('User %s added to group %s.', primaryEmail, groupEmailAddress)
     }
-    else //If the user's email IS a member of the group.
+    catch (err) 
     {
-      console.log(primaryEmail + " is already a member in " + groupEmailAddress)
-    }
-  }
-  catch (err) 
-  {
-    console.log('Failed with error %s', err.message)
+      console.log('Failed with error %s', err.message)
+    }    
   }
 }
 
+function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
+{ 
+  if (checkGroupMembership(primaryEmail, groupEmailAddress)) //If the user's email IS a member of the group.
+  {   
+    try 
+    {
+      AdminDirectory.Members.remove(groupEmailAddress, primaryEmail)
+      console.log('User %s removed from group %s.', primaryEmail, groupEmailAddress)
+    }
+    catch (err) 
+    {
+      console.log('Failed with error %s', err.message)
+    }    
+  }
+}
 
 /**
  * Removes a user from a Google Group if the user is a member.
@@ -150,6 +161,7 @@ function addUserToGoogleGroup(primaryEmail, groupEmailAddress)
  * @param {string} groupEmailAddress - The email address of the Google Group.
  * @throws {Error} Throws an error if there's an issue with the "AdminDirectory" API call.
  */
+/*
 function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
 {
   try {
@@ -167,8 +179,26 @@ function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
   {
     console.log('Failed with error %s', err.message)
   }
-}
+}*/
 
+function checkGroupMembership(userEmail, groupName) 
+{
+  var groupMembers = GroupsApp.getGroupByEmail(String(groupName)).getUsers()
+  Logger.log(groupMembers)
+
+  var isMember = groupMembers.some(element => element.getEmail() === String(userEmail))
+  
+  Logger.log(isMember + " isMember")
+  
+
+  if (isMember) {
+    Logger.log(userEmail + " is a member of the group.");
+    return true
+  } else {
+    Logger.log(userEmail + " is not a member of the group.");
+    return false
+  }
+}
 
 /**
  * Creates a new Google user based on the provided user object.
@@ -182,22 +212,22 @@ function removeUserFromGoogleGroup(primaryEmail, groupEmailAddress)
  * createNewGoogleUser(userObj);
  * ```
  */
-function createNewGoogleUser(userObj)
+function createNewGoogleUserF(userObj)
 {
-  var userEmail = userObj.primaryEmail
+    var userEmail = userObj.primaryEmail
 
-  if (listAllGoogleUsersEmails().some(email => email === userEmail))
-  {
-    Logger.log(listAllGoogleUsersEmails().some(email => email === userEmail))
+    if (listAllGoogleUsersEmails().some(email => email === userEmail))
+    {
+      Logger.log(listAllGoogleUsersEmails().some(email => email === userEmail))
 
-    new GoogleUser(userObj).createNewGoogleUser() 
+      new GoogleUser(userObj).createNewGoogleUser() 
 
-    toast(`User ${userObj.primaryEmail} was created at ${userObj.orgUnitPath}. It may take a few seconds until the new user appear.`, "New user created", 8)
-  }
-  else
-  {
-    toast(`Unable to create new user.`, "Couldn't crete new user", 8)
-  }
+      toast(`User ${userObj.primaryEmail} was created at ${userObj.orgUnitPath}. It may take a few seconds until the new user appear.`, "New user created", 8)
+    }
+    else
+    {
+      toast(`Unable to create new user.`, "Couldn't crete new user", 8)
+    }
 }
 
 /**
@@ -238,7 +268,8 @@ function newUserObj(esnSection, primaryEmail, password, firstName, lastName, rec
 
 //Helper Functions
 
-function listAllGoogleUsers() {
+function listAllGoogleUsers() 
+{
   var pageToken;
   var allUsers = [];
 
@@ -260,7 +291,8 @@ function listAllGoogleUsers() {
   return allUsers;
 }
 
-function listAllGoogleUsersEmails() {
+function listAllGoogleUsersEmails() 
+{
   var users = listAllGoogleUsers();
   var usersEmailAddresses = []
   if (users.length > 0) {
@@ -277,4 +309,32 @@ function listAllGoogleUsersEmails() {
   
   //Logger.log("getemail " +  usersEmailAddresses)
   return usersEmailAddresses
+}
+
+function checkIfUserIsAdmin()
+{
+  var emails = SECTION_EMAIL_Admin
+  var currentUser = Session.getActiveUser().getEmail()
+  emails = emails.split().join()
+
+  var isAdmin = emails.includes(currentUser)
+  
+  Logger.log("emails: " + emails)
+
+  Logger.log("isAdmin: " + isAdmin)
+}
+
+
+function suspendGoogleUser(userEmail)
+{
+  var user = AdminDirectory.Users.get(userEmail)
+
+  if (user.suspended == false) 
+  {
+    user.suspended = true
+  }
+  
+  AdminDirectory.Users.update(user, userEmail)
+  
+  //Logger.log(AdminDirectory.Users.get(userEmail))
 }
