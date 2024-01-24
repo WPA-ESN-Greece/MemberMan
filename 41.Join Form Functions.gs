@@ -41,8 +41,8 @@ function acceptedFromJoinformToMembers()
       //  searchForColumnNamed("Τμήμα Φοίτησης", Members_SHEET) //C2:K2
 
       // Create ESN Email Address and sets value of ESN email to the Members Sheet.
-      var firstname = primaryMemberData[0]
-      var lastname = primaryMemberData[1]
+      var firstname = primaryMemberData[0].toString().trim()
+      var lastname = primaryMemberData[1].toString().trim()
       setValueToRange(Members_SHEET, ESN_Email_Address_CELL, [createESNemailAddress(firstname, lastname, 1)])
 
       // Creates and sets Became a member date.

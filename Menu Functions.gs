@@ -152,7 +152,7 @@ function initialSetUp()
   else {}
 
   // Prompts user for ESN Section's Full Legal Name.
-  var  sectionFullName = ui.prompt("⚠️ Type your Section's Full Name as it appears in your Legal Documents. Example: Erasmus Student Network of University of Mykonos (Probably in your mother language)").getResponseText()
+  var  sectionFullName = ui.prompt("⚠️ Type your Section's Full Name as it appears in your Legal Documents. Example: Erasmus Student Network of University of Mykonos (In English)").getResponseText()
   Settings_SHEET.getRange(SECTION_FULL_NAME_CELL).setValue(sectionFullName)
   toast("","Section's Full Name has been set in the Settings.")
 

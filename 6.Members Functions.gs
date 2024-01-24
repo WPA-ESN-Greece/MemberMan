@@ -153,7 +153,7 @@ function bulkCreateGoogleUsers()
         var userEmail = row[1]
         var userFirstname = row[2]
         var userLastname = row[3]
-        var userPassword = row[2] + "@esn"
+        var userPassword = row[2] + "esn12345678"
         var userRecoveryEmail = row[6]
         var userPhoneNumber = row[7]
         
@@ -161,6 +161,19 @@ function bulkCreateGoogleUsers()
         {
           // Creating the new user.
           insertNewGoogleUser(SECTION_SHORT_NAME, userEmail, userPassword, userFirstname, userLastname, userRecoveryEmail, userPhoneNumber, SECTION_GOOGLE_Organization_Unit_Path)
+
+          // Email the Login Credentials to the recovery email address of members.
+          emailCredentialsToNewUsers(userEmail, userPassword, userRecoveryEmail)
+
+          
+          if (IS_Members_Google_Group_Active == true)
+          {
+            addUserToGoogleGroup(userEmail, Members_Google_Group)
+          }
+
+          // Sets Membe Status to "Newbie"
+          setValueToRange(Members_SHEET, Members_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [NEWBIE])
+          
         }
         catch(err)
         {
@@ -168,17 +181,7 @@ function bulkCreateGoogleUsers()
           Logger.log('Failed with error %s', err.message)
         }
 
-        // Email the Login Credentials to the recovery email address of members.
-        emailCredentialsToNewUsers(userEmail, userPassword, userRecoveryEmail)
 
-        
-        if (IS_Members_Google_Group_Active == true)
-        {
-          addUserToGoogleGroup(userEmail, Members_Google_Group)
-        }
-
-        // Sets Membe Status to "Newbie"
-        setValueToRange(Members_SHEET, Members_SHEET.getRange(index + 2, 1, 1, 1).getA1Notation(), [NEWBIE])
       }
     })
   }

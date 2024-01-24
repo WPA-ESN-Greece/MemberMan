@@ -335,6 +335,4 @@ function suspendGoogleUser(userEmail)
   }
   
   AdminDirectory.Users.update(user, userEmail)
-  
-  //Logger.log(AdminDirectory.Users.get(userEmail))
 }
