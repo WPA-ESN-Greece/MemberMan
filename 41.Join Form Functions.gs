@@ -38,7 +38,6 @@ function acceptedFromJoinformToMembers()
 
       // Copies Values, From First Name till Studies, from Join Form Responses to Members Sheet. From First Name till Studies.
       setValueToRange(Members_SHEET, Members_SHEET.getRange(2, 3, 1, searchForColumnNamed(EndColumnofPrimaryMemberData, Members_SHEET) - 2).getA1Notation(), primaryMemberData) 
-      //  searchForColumnNamed("Τμήμα Φοίτησης", Members_SHEET) //C2:K2
 
       // Create ESN Email Address and sets value of ESN email to the Members Sheet.
       var firstname = primaryMemberData[0].toString().trim()
