@@ -38,11 +38,10 @@ function acceptedFromJoinformToMembers()
 
       // Copies Values, From First Name till Studies, from Join Form Responses to Members Sheet. From First Name till Studies.
       setValueToRange(Members_SHEET, Members_SHEET.getRange(2, 3, 1, searchForColumnNamed(EndColumnofPrimaryMemberData, Members_SHEET) - 2).getA1Notation(), primaryMemberData) 
-      //  searchForColumnNamed("Τμήμα Φοίτησης", Members_SHEET) //C2:K2
 
       // Create ESN Email Address and sets value of ESN email to the Members Sheet.
-      var firstname = primaryMemberData[0]
-      var lastname = primaryMemberData[1]
+      var firstname = primaryMemberData[0].toString().trim()
+      var lastname = primaryMemberData[1].toString().trim()
       setValueToRange(Members_SHEET, ESN_Email_Address_CELL, [createESNemailAddress(firstname, lastname, 1)])
 
       // Creates and sets Became a member date.
@@ -70,17 +69,13 @@ function acceptedFromJoinformToMembers()
 
 
   function createESNemailAddress(firstName, lastName, firstNameLettersNum, lastNameLettersNum)
-  {
-    //var firstName = "Onomas" //for testing
-    //var lastName = "Epithetos" //for testing
-    
+  { 
     if (!firstNameLettersNum) {firstNameLettersNum = firstName.length}
     if (!lastNameLettersNum) {lastNameLettersNum = lastName.length}
 
     // If you want the full first name use firstName.slice(0,firstName.length) in the first part.
     var esnEmail = String(firstName.slice(0, firstNameLettersNum)).toLowerCase() + String(lastName.slice(0, lastNameLettersNum)).toLowerCase() + "@" + SECTION_EMAIL_DOMAIN
     
-    //Logger.log(esnEmail) 
     return esnEmail
   }
 
