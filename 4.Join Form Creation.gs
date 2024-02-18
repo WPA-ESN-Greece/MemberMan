@@ -188,12 +188,12 @@ function createNewRecruitmentForm(_SECTION_SHORT_NAME, _UNIVERSITY_NAME, _SECTIO
   // Creates a Column that calculates Age of a recruit in the right side of birth year column in the Join Form Responses Sheet.
   function createAgeColumn() 
   {
-    var birthYearColumnIndex = searchForColumnNamed("Έτος Γέννησης", Join_Form_Responses_SHEET)
+    var birthYearColumnIndex = searchForColumnNamed("Year of Birth", Join_Form_Responses_SHEET)
     var birthYearValuesRange = Join_Form_Responses_SHEET.getRange(1, birthYearColumnIndex).getA1Notation().split("1")[0] + "2:" + Join_Form_Responses_SHEET.getRange(1, birthYearColumnIndex).getA1Notation().split("1")[0]
 
     Join_Form_Responses_SHEET.insertColumnAfter(birthYearColumnIndex)
     Join_Form_Responses_SHEET.getRange(1, birthYearColumnIndex + 1, 1)
-    .setFormula(`={"Ηλικία";ARRAYFORMULA(IF(INDIRECT("${birthYearValuesRange}")<>"",YEAR(TODAY()) - Year(DATE(INDIRECT("${birthYearValuesRange}"),1,1)),""))}`)
+    .setFormula(`={"Age";ARRAYFORMULA(IF(INDIRECT("${birthYearValuesRange}")<>"",YEAR(TODAY()) - Year(DATE(INDIRECT("${birthYearValuesRange}"),1,1)),""))}`)
 
     Logger.log("Age column created.")
   }
